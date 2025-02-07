@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import './Usercom.css';  // Import the CSS file for styling
 
 interface UsercomProps {}
