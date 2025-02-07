@@ -1,0 +1,159 @@
+/* Dropdown Container Styling */
+.dropdown {
+    position: relative;
+    display: inline-block;
+  width: 100%; 
+background-color: white; }
+  
+  /* Dropdown Button Styling */
+  .dropdown .btn {
+    width: 100%; /* Makes the dropdown button span the width of the container */
+    padding: 10px 20px; /* Adds padding for better click area */
+    font-size: 16px; /* Font size for the button text */
+    background-color: white; /* Light background */
+    color: #333; /* Text color */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    text-align: left; /* Align text to the left */
+    box-sizing: border-box;
+  }
+  
+  .dropdown .btn:hover {
+    background-color: #e2e6ea; /* Change background color on hover */
+    border-color: #e7e9ed; /* Change border color on hover */
+  }
+  
+  /* Dropdown Menu Styling */
+  .dropdown-menu {
+    background-color: #ffffff; /* White background */
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Soft shadow for dropdown */
+    padding: 0;
+    width: 100%;
+    top: 0;
+    z-index: 1200;
+  }
+  
+  /* Dropdown Item Styling */
+  .dropdown-item {
+    padding: 10px 20px; /* Add padding to each dropdown item */
+    font-size: 16px; /* Font size for dropdown items */
+    color: #333; /* Text color */
+    cursor: pointer;
+  }
+  
+  /* Hover Effect for Dropdown Items */
+  .dropdown-item:hover {
+    background-color: #f8f9fa; /* Light background color when hovering over an item */
+  }
+  
+  /* Focus Effect for Active Item */
+  .dropdown-item:focus {
+    outline: none; /* Remove default outline on focus */
+    background-color: #f1f1f1; /* Light gray background when focused */
+  }
+ 
+  .btn-group{
+width: 100%;
+  }
+  .input3,.input2,.input1{
+    display: flex;
+    padding-left: 1rem;
+    gap: 1rem;
+    padding-right: 1rem;
+    justify-content: space-around;
+    height: 3rem;
+  }
+  input{
+    width: 4rem;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
+  .btn{
+padding-left: 2rem;
+padding-right: 2rem; 
+ }
+  .type{
+    width: 100%;
+    margin-top: .5rem;
+    display: flex;
+    justify-content: space-around;
+padding-left: 2rem;
+padding-right: 2rem;    
+  }
+  input[type="checkbox"] {
+    border: 6px solid #000; /* Black border with thickness of 3px */
+    border-radius: 5px; /* Optional: To make the corners rounded */
+    padding: 5px; /* Optional: Adds some space around the checkbox */
+  }
+
+/* Optional: Add a hover effect when the checkbox is focused */
+input[type="checkbox"]:focus {
+  outline: none; /* Remove default focus outline */
+  border-color: #007bff; /* Change the border color when focused */
+}
+
+  
+  .save{
+    color: white;
+    background-color: rgba(255, 0, 0, 0.575);
+    width: 4rem;
+    margin-top: 1rem;
+    margin-left: 1rem;
+  }
+
+  /* Table container styling */
+.table-container {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow-y:scroll;
+ 
+}
+
+/* Table Styling */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 8px;
+  border-collapse:separate;  /* Change from 'collapse' to 'separate' */
+  border-spacing: 0 7px;        /* This will add a 10px gap between cells */
+
+}
+
+/* Table header styling */
+.table th {
+  background-color: #007bffdb;
+  color: white;
+  font-size: 16px;
+  padding: 2px;
+  text-align: center;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+.tamount{
+  font-size: 16px;
+  color: black;
+padding-left: 16rem;}
+
+/* Table cell styling */
+.table td {
+  padding: 1rem;
+  text-align: center;
+  font-size: 14px;
+  color:white;
+  border-bottom: 1px solid#0f0f0f;
+}
+
+/* Styling for alternating row colors */
+.table tr{ background-color:rgb(11, 10, 10);
+}
+
+/* Optional: Add a hover effect for table rows */
+
+
+.table td,
+.table th {
+  border: 1px solid#0f0f0fdf;
+}
+
+ 

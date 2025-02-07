@@ -1,0 +1,58 @@
+/* General Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9fbfc;
+    color: white;
+  }
+  
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #111;
+    
+  }
+  button{
+    color: red;
+background-color: transparent;    
+  }
+  
+  .logo img {
+    height: 40px;
+  }
+  
+  .menu ul {
+    display: flex;
+    gap: 20px;
+  }
+  
+  .menu li {
+    list-style: none;
+  }
+  
+  .menu a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s;
+  }
+  
+  .menu a:hover {
+    color: #e50914; /* Netflix red */
+  }
+  
+  .user .user-avatar {
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+  

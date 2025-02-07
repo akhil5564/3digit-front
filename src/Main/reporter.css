@@ -1,0 +1,63 @@
+/* Style for the table title */
+.reporter-title {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* General styling for the table */
+  .reporter-table {
+    width: 80%;
+    margin: 0 auto;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-spacing: 0 7px;        /* This will add a 10px gap between cells */
+    border-collapse:separate;  /* Change from 'collapse' to 'separate' */
+
+
+  }
+  
+  /* Style for table headers */
+  .reporter-table th {
+    background-color: #7d6cee;
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+    border-bottom: 2px solid #ddd;
+  }
+  
+  /* Style for table rows */
+  .reporter-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #060606;
+    background-color: rgba(255, 0, 0, 0.692);
+    font-size: 1rem;
+    color:white;
+    border-spacing: 0 2px;        /* This will add a 10px gap between cells */
+
+  }
+  
+  /* Hover effect for rows */
+  .reporter-table tr:hover {
+    background-color: #f79e9ecf;
+  }
+  
+  /* Add striped row effect */
+  .reporter-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Optional: Style for table on small screens */
+  @media (max-width: 768px) {
+    .reporter-table {
+      width: 100%;
+    }
+    .reporter-table th, .reporter-table td {
+      font-size: 0.9rem;
+      padding: 4px;
+    }
+  }
+  
