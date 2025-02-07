@@ -183,13 +183,14 @@ const Home: FC = () => {
             <div className='chckbx'>
               <input type="checkbox" />
               <input type="checkbox" />
+              
             </div>
           </div>
 
           <div className="type">
-            <button type="button" className="btn btn-primary" onClick={() => handleDigit1ButtonClick('A')}>A</button>
-            <button type="button" className="btn btn-primary" onClick={() => handleDigit1ButtonClick('B')}>B</button>
-            <button type="button" className="btn btn-primary" onClick={() => handleDigit1ButtonClick('C')}>C</button>
+            <button type="button" className="btn btn-dark gray" onClick={() => handleDigit1ButtonClick('A')}>A</button>
+            <button type="button" className="btn btn-dark gray" onClick={() => handleDigit1ButtonClick('B')}>B</button>
+            <button type="button" className="btn btn-dark gray" onClick={() => handleDigit1ButtonClick('C')}>C</button>
             <button type="button" className="btn btn-dark gray" onClick={() => handleDigit1ButtonClick('All')}>All</button>
             </div>
           <p>Selected Value: {digit1Value}</p>
@@ -221,9 +222,9 @@ const Home: FC = () => {
           </div>
 
           <div className="type">
-            <button type="button" className="btn btn-primary" onClick={() => handleDigit2ButtonClick('AB')}>AB</button>
-            <button type="button" className="btn btn-primary" onClick={() => handleDigit2ButtonClick('BC')}>BC</button>
-            <button type="button" className="btn btn-primary" onClick={() => handleDigit2ButtonClick('AC')}>AC</button>
+            <button type="button" className="btn btn-info" onClick={() => handleDigit2ButtonClick('AB')}>AB</button>
+            <button type="button" className="btn btn-info" onClick={() => handleDigit2ButtonClick('BC')}>BC</button>
+            <button type="button" className="btn btn-info" onClick={() => handleDigit2ButtonClick('AC')}>AC</button>
             <button type="button" className="btn btn-dark gray" onClick={() => handleDigit2ButtonClick('All')}>All</button>
             </div>
           <p>Selected Value: {digit2Value}</p>
@@ -255,8 +256,8 @@ const Home: FC = () => {
           </div>
 
           <div className="type">
-            <button type="button" className="btn btn-primary" onClick={() => handleDigit3ButtonClick('super')}>SUPER</button>
-            <button type="button" className="btn btn-primary" onClick={() => handleDigit3ButtonClick('BOX')}>BOX</button>
+            <button type="button" className="btn btn-success" onClick={() => handleDigit3ButtonClick('super')}>SUPER</button>
+            <button type="button" className="btn btn-success" onClick={() => handleDigit3ButtonClick('BOX')}>BOX</button>
             <button type="button" className="btn btn-dark gray" onClick={() => handleDigit3ButtonClick('All')}>All</button>
             </div>
           <p>Selected Value: {digit3Value}</p>

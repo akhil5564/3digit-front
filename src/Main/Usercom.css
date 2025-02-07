@@ -1,0 +1,55 @@
+/* Container for the table */
+.table-container {
+    width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Styling for the table */
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+  }
+  
+  /* Table Header */
+  .user-table thead {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .user-table th {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 16px;
+  }
+  
+  /* Table Body */
+  .user-table tbody tr {
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .user-table td {
+    padding: 12px 15px;
+    text-align: left;
+    font-size: 14px;
+  }
+  
+  /* Table Row Hover Effect */
+  .user-table tbody tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Zebra Striping for Rows */
+  .user-table tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .user-table tbody tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+  

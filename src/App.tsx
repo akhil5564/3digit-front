@@ -1,4 +1,5 @@
 import './App.css';
+// import Usercom from './Main/Usercommission';
 import Home from './Main/Home';
 // import Login from './login/Login';
 
@@ -8,8 +9,8 @@ function App() {
     <>
 
   <Home/>
-
-
+{/* <CameraScan/> */}
+{/* <Usercom/> */}
    </>
   );
 }

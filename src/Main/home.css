@@ -13,9 +13,12 @@ background-color: white; }
     background-color: white; /* Light background */
     color: #333; /* Text color */
     border: 1px solid #ccc; /* Light border */
-    border-radius: 5px; /* Rounded corners */
     text-align: left; /* Align text to the left */
     box-sizing: border-box;
+  }
+  .btn-group{
+    border-radius: 0;
+    height: 3rem;
   }
   
   .dropdown .btn:hover {
@@ -51,9 +54,11 @@ background-color: white; }
     outline: none; /* Remove default outline on focus */
     background-color: #f1f1f1; /* Light gray background when focused */
   }
+
  
   .btn-group{
 width: 100%;
+
   }
   .input3,.input2,.input1{
     display: flex;
@@ -78,12 +83,16 @@ padding-right: 2rem;
     display: flex;
     justify-content: space-around;
 padding-left: 2rem;
-padding-right: 2rem;    
+padding-right: 2rem;
+height: 2.8rem;    
   }
   input[type="checkbox"] {
     border: 6px solid #000; /* Black border with thickness of 3px */
-    border-radius: 5px; /* Optional: To make the corners rounded */
     padding: 5px; /* Optional: Adds some space around the checkbox */
+  }
+  .chckbx{
+    padding: 5px;
+    size: 3rem;
   }
 
 /* Optional: Add a hover effect when the checkbox is focused */
@@ -104,7 +113,6 @@ input[type="checkbox"]:focus {
   /* Table container styling */
 .table-container {
   background-color: #f9f9f9;
-  border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow-y:scroll;
  
@@ -114,7 +122,6 @@ input[type="checkbox"]:focus {
 .table {
   width: 100%;
   border-collapse: collapse;
-  border-radius: 8px;
   border-collapse:separate;  /* Change from 'collapse' to 'separate' */
   border-spacing: 0 7px;        /* This will add a 10px gap between cells */
 
@@ -125,7 +132,6 @@ input[type="checkbox"]:focus {
   background-color: #007bffdb;
   color: white;
   font-size: 16px;
-  padding: 2px;
   text-align: center;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
@@ -137,11 +143,11 @@ padding-left: 16rem;}
 
 /* Table cell styling */
 .table td {
-  padding: 1rem;
   text-align: center;
   font-size: 14px;
   color:white;
   border-bottom: 1px solid#0f0f0f;
+  width: 100%;
 }
 
 /* Styling for alternating row colors */
