@@ -8,7 +8,6 @@ body {
     margin: 0;
     padding: 0;
   }
-  
   /* Header and user section */
   .head, .users {
     display: flex;
