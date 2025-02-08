@@ -1,58 +1,129 @@
 /* General Styles */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f9fbfc;
+  color: #333; /* Set text color to dark gray for readability */
+}
+
+/* Navbar Styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: #070707; /* Dark background for the navbar */
+  max-height: 10px;
+}
+
+button {
+  background-color: transparent;
+  border: none;
+  color: #e50914; /* Netflix red color */
+  cursor: pointer;
+  font-size: 20px; /* Larger button size for better UX */
+}
+
+/* Logo styles */
+.logo img {
+  height: 40px;
+}
+
+/* Menu items in navbar */
+.menu ul {
+  display: flex;
+  gap: 20px;
+}
+
+.menu li {
+  list-style: none;
+}
+
+.menu a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.menu a:hover {
+  color: #e50914; /* Netflix red on hover */
+}
+
+/* User avatar styles */
+.user .user-avatar {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+/* Dropdown Menu Styles */
+.dropdown{
+  top: 30px;  /* Adjust this based on your navbar height */
+left: 290px;  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  z-index: 1000;
+  width: 40px; /* Set width to 40px */
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none; /* Prevents interactions when not visible */
+  font-weight: 700;
+}
+li{
+  font-weight: 700;
+}
+
+/* Show dropdown when active */
+.dropdown.show {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  width: 67px;
+font-weight: 700;}
+
+/* Dropdown List */
+.dropdown ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown li {
+  padding: 4px 8px; /* Adjust padding for smaller size */
+  cursor: pointer;
+  font-size: 12px; /* Smaller font size */
+  font-weight: 500;
+  color: #333;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background-color 0.3s ease;
+  padding: 1rem;
+  font-weight: 900
   
-  body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f9fbfc;
-    color: white;
-  }
-  
-  .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-    background-color: #111;
-    
-  }
-  button{
-    color: red;
-background-color: transparent;    
-  }
-  
-  .logo img {
-    height: 40px;
-  }
-  
-  .menu ul {
-    display: flex;
-    gap: 20px;
-  }
-  
-  .menu li {
-    list-style: none;
-  }
-  
-  .menu a {
-    text-decoration: none;
-    color: white;
-    font-size: 16px;
-    font-weight: bold;
-    transition: color 0.3s;
-  }
-  
-  .menu a:hover {
-    color: #e50914; /* Netflix red */
-  }
-  
-  .user .user-avatar {
-    height: 30px;
-    width: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-  
+}
+
+/* Remove bottom border from last item */
+.dropdown li:last-child {
+  border-bottom: none;
+}
+
+/* Hover effect for list items */
+.dropdown li:hover {
+  background-color: #f4f4f4;
+  color: #007BFF; /* Blue color on hover */
+}
+
+/* Make dropdown show on button click */
+.navbar button:hover + .dropdown,
+.navbar button:focus + .dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}

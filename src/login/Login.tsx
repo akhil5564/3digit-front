@@ -1,63 +1,39 @@
-// src/pages/Login.tsx
-import  { FC, useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './login.css'; // Assuming you will create the required styles for this design
+import  { FC, useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import './login.css'
 
-interface LoginProps {}
-
-const Login: FC<LoginProps> = ({}) => {
-  const [email, setEmail] = useState('');
+const Login: FC = () => {
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    // Check if user is already logged in (this could be done by checking a token or session)
-    if (localStorage.getItem('userLoggedIn')) {
-      navigate('/home');
-    }
-  }, [navigate]);
-
+  const navigate = useNavigate(); // Hook to navigate to the next page
   const handleLogin = () => {
-    if (email && password) {
-      // After successful login, set the logged-in status in localStorage
-      localStorage.setItem('userLoggedIn', 'true');
-      navigate('/home');
+    if (username === 'sas' && password === 'pops') {
+      navigate('/home'); // Redirect to home page on successful login
     } else {
-      alert('Please fill in both email and password.');
+      alert("Invalid username or password.");
     }
   };
-
+  
   return (
     <div className="login-container">
-      <div className="login-navbar">
-        <h1 className="logo">NETFLIX</h1>
+      <h2>Login Page</h2>
+      <div className="input-group">
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        />
       </div>
-
-      <div className="hero-section">
-        <div className="hero-content">
-          <h1>Unlimited movies, TV shows, and more.</h1>
-          <h2>Watch anywhere. Cancel anytime.</h2>
-          <p>Ready to watch? Enter your email to create or restart your membership.</p>
-
-          <div className="login-form">
-            <input
-              type="email"
-              placeholder="Email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <button className="login-button" onClick={handleLogin}>
-              Sign In
-            </button>
-          </div>
-        </div>
+      <div className="input-group">
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
       </div>
+      <button className="login-button" onClick={handleLogin}>Login</button>
     </div>
   );
 };

@@ -78,7 +78,7 @@ const Home: FC = () => {
       setCombinedValue(combined);
   
       const count = parseInt(countValue, 10) || 0;
-      const amount = count * 10;
+      const amount = count * 12;
   
       setTableRows((prevRows) => [
         ...prevRows,
@@ -143,23 +143,25 @@ const Home: FC = () => {
   return (
     <>
       <Navbar />
-      <div className="dropdown">
-        <a className="btn btn-light" href="#" data-bs-toggle="dropdown">
-          {selectedTime}
-        </a>
-
-        <ul className="dropdown-menu">
-          <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('1PM')}>1PM</a></li>
-          <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('6PM')}>6PM</a></li>
-          <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('8PM')}>8PM</a></li>
-        </ul>
-      </div>
-
-      <div className="digits">
-        <div className="btn-group" role="group">
-          <button type="button" className="btn btn-dark gray" onClick={() => handleButtonClick('digit1')}>1</button>
-          <button type="button" className="btn btn-info" onClick={() => handleButtonClick('digit2')}>2</button>
-          <button type="button" className="btn btn-success" onClick={() => handleButtonClick('digit3')}>3</button>
+      <div className='drp'>
+        <div className="dropdown">
+          <a className="btn btn-light" href="#" data-bs-toggle="dropdown">
+            {selectedTime}
+          </a>
+        
+          <ul className="dropdown-menu">
+            <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('1PM')}>1PM</a></li>
+            <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('6PM')}>6PM</a></li>
+            <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('8PM')}>8PM</a></li>
+          </ul>
+        </div>
+        
+        <div className="digits">
+          <div className="btn-group" role="group">
+            <button type="button" className="btn btn-dark gray" onClick={() => handleButtonClick('digit1')}>1</button>
+            <button type="button" className="btn btn-info" onClick={() => handleButtonClick('digit2')}>2</button>
+            <button type="button" className="btn btn-success" onClick={() => handleButtonClick('digit3')}>3</button>
+          </div>
         </div>
       </div>
 
@@ -193,8 +195,7 @@ const Home: FC = () => {
             <button type="button" className="btn btn-dark gray" onClick={() => handleDigit1ButtonClick('C')}>C</button>
             <button type="button" className="btn btn-dark gray" onClick={() => handleDigit1ButtonClick('All')}>All</button>
             </div>
-          <p>Selected Value: {digit1Value}</p>
-          <p>Combined Value: {combinedValue}</p>
+         
         </div>
       )}
 
@@ -227,8 +228,7 @@ const Home: FC = () => {
             <button type="button" className="btn btn-info" onClick={() => handleDigit2ButtonClick('AC')}>AC</button>
             <button type="button" className="btn btn-dark gray" onClick={() => handleDigit2ButtonClick('All')}>All</button>
             </div>
-          <p>Selected Value: {digit2Value}</p>
-          <p>Combined Value: {combinedValue}</p>
+         
         </div>
       )}
 
@@ -260,8 +260,7 @@ const Home: FC = () => {
             <button type="button" className="btn btn-success" onClick={() => handleDigit3ButtonClick('BOX')}>BOX</button>
             <button type="button" className="btn btn-dark gray" onClick={() => handleDigit3ButtonClick('All')}>All</button>
             </div>
-          <p>Selected Value: {digit3Value}</p>
-          <p>Combined Value: {combinedValue}</p>
+         
         </div>
       )}
 
