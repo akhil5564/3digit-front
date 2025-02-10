@@ -1,5 +1,5 @@
 import React, { FC, useState, useEffect } from 'react';
-import './Salesreport.css'
+import '../Main/Salesreport.css'
 import { IconZoomCode } from '@tabler/icons-react';
 
 interface salesReportProps {
