@@ -13,11 +13,7 @@ const Home: FC = () => {
   const [numValue3, setNumValue3] = useState<string>('');
   const [countValue, setCountValue] = useState<string>(''); // Track count value for all digits
 
-  const [digit1Value, setDigit1Value] = useState<string>('');
-  const [digit2Value, setDigit2Value] = useState<string>('');
-  const [digit3Value, setDigit3Value] = useState<string>('');
 
-  const [combinedValue, setCombinedValue] = useState<string>(''); 
   const [tableRows, setTableRows] = useState<{ letter: string; num: string; count: string; amount: string }[]>([]); // Track letter, num, count, and amount
 
   const inputRef1 = useRef<HTMLInputElement | null>(null);
@@ -78,9 +74,6 @@ const Home: FC = () => {
         { letter: 'C', num: numValue, count: countValue, amount: (parseInt(countValue, 10) * 12).toString() },
       ]);
     } else {
-      const combined = `${value}${numValue}`;
-      setDigit1Value(value);
-      setCombinedValue(combined);
   
       const count = parseInt(countValue, 10) || 0;
       const amount = count * 12;
@@ -102,9 +95,6 @@ const Home: FC = () => {
         { letter: 'AC', num: numValue2, count: countValue, amount: (parseInt(countValue, 10) * 10).toString() },
       ]);
     } else {
-      const combined = `${value}${numValue2}`;
-      setDigit2Value(value);
-      setCombinedValue(combined);
   
       const count = parseInt(countValue, 10) || 0;
       const amount = count * 10;
@@ -125,9 +115,6 @@ const Home: FC = () => {
         { letter: 'BOX', num: numValue3, count: countValue, amount: (parseInt(countValue, 10) * 10).toString() },
       ]);
     } else {
-      const combined = `${value}${numValue3}`;
-      setDigit3Value(value);
-      setCombinedValue(combined);
   
       const count = parseInt(countValue, 10) || 0;
       const amount = count * 10;
