@@ -2,7 +2,6 @@ import { FC, useState, useRef, useEffect } from 'react';
 import Navbar from '../Admin/Navbar';
 import { IconTrash } from '@tabler/icons-react';
 import './home.css';
-import { Link } from 'react-router-dom';
 
 const Home: FC = () => {
   const [selectedTime, setSelectedTime] = useState<string>('3PM');
