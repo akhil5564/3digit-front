@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './Main/Home';
 import Login from './login/Login';
 import Salesreport from './Main/Salesreport';
@@ -9,26 +9,45 @@ import Netpay from './Main/Netpay';
 import Pnl from './Main/Pnl';
 import Countreport from './Main/Countreport';
 
+// Create the router with createBrowserRouter
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <Login />, // Login Page Route
+  },
+  {
+    path: "/home",
+    element: <Home />, // Home Page Route
+  },
+  {
+    path: "/sales",
+    element: <Salesreport />, // Sales Report Route
+  },
+  {
+    path: "/winning",
+    element: <Winning />, // Winner's Report Route
+  },
+  {
+    path: "/more",
+    element: <More />, // More Route
+  },
+  {
+    path: "/netpay",
+    element: <Netpay />, // Net Pay Route
+  },
+  {
+    path: "/pnl",
+    element: <Pnl />, // PnL Route
+  },
+  {
+    path: "/countreport",
+    element: <Countreport />, // Count Report Route
+  },
+]);
+
 const App: React.FC = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} /> {/* Login Page Route */}
-        <Route path="/home" element={<Home />} /> {/* Home Page Route */}
-        <Route path="/sales" element={<Salesreport />} /> {/* Sales route */}
-        <Route path="/winning" element={<Winning />} /> {/* Sales route */}
-        <Route path="/more" element={<More/>} /> {/* Sales route */}
-        <Route path="/netpay" element={<Netpay />} /> {/* Sales route */}
-        <Route path="/pnl" element={<Pnl />} /> {/* Sales route */}
-        <Route path="/countreport" element={<Countreport />} /> {/* Sales route */}
-
-
-
-
-
-
-      </Routes>
-    </Router>
+    <RouterProvider router={router} /> // Using the router constant here
   );
 };
 

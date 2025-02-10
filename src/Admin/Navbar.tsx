@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import './navbar.css'; // Import the corresponding CSS file
+import './navbar.css';
 import logo from '../assets/6075689.webp';
-import { IconAlignRight } from '@tabler/icons-react';
-import { IconClipboardCopy } from '@tabler/icons-react';
-import { IconCamera } from '@tabler/icons-react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { IconAlignRight, IconClipboardCopy, IconCamera } from '@tabler/icons-react';
+import { Link } from 'react-router-dom';
 
-const Navbar: React.FC = () => {
-  const [isDropdownVisible, setDropdownVisible] = useState(false); // State to control dropdown visibility
-  const navigate = useNavigate(); // Initialize navigate
+interface NavbarProps {
+  handlePaste: () => void; // Define the type for the handlePaste function prop
+}
 
-  // Function to toggle the dropdown visibility
+const Navbar: React.FC<NavbarProps> = ({ handlePaste }) => {
+  const [isDropdownVisible, setDropdownVisible] = useState(false);
+
   const toggleDropdown = () => {
     setDropdownVisible(!isDropdownVisible);
   };
@@ -20,8 +20,9 @@ const Navbar: React.FC = () => {
       <div className="logo">
         <img src={logo} alt="logo" />
       </div>
-
-      <button><IconClipboardCopy stroke={2} /></button>
+      <button onClick={handlePaste}>
+      <IconClipboardCopy stroke={2} />
+      </button>
       <button><IconCamera stroke={2} /></button>
 
       {/* Toggle dropdown button */}
@@ -29,22 +30,19 @@ const Navbar: React.FC = () => {
         <IconAlignRight stroke={2} />
       </button>
 
+     
+
       {/* Dropdown menu */}
       {isDropdownVisible && (
         <div className="dropdown">
           <ul>
-            {/* Using navigate to go to '/sales' when clicked */}
-            <li onClick={() => navigate('/sales')} className="dropdown-item">
-              SALES REPORT
-            </li>
-            <li onClick={() => navigate('/sales')} className="dropdown-item">
-            WINNER'S REPORT</li>
-            <li>PROFIT AND LOSS</li>
-            <li>NET PAY</li>
-            <li>COUNT REPORT</li>
-            <li>RESULT</li>
-            <li onClick={() => ("isLoggedIn") && navigate("/")}>LOGOUT</li>
-            <li>MORE</li>
+            <li><Link to='/sales'>SALES REPORT</Link></li>
+            <li><Link to='/winning'>WINNER'S REPORT</Link></li>
+            <li><Link to='/pnl'>PROFIT AND LOSS</Link></li>
+            <li><Link to='/netpay'>NET PAY</Link></li>
+            <li><Link to='/countreport'>COUNT REPORT</Link></li>
+            <li><Link to='/more'>MORE</Link></li>
+            <li><Link to='/logout'>LOGOUT</Link></li>
           </ul>
         </div>
       )}

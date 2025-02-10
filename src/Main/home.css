@@ -101,14 +101,6 @@ padding-right: 1rem;
     height: 2rem;
   }
 
-  /* Table container styling */
-.table-container {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  overflow-y:scroll;
- 
-}
 
 /* Table Styling */
 .table {
@@ -118,6 +110,9 @@ padding-right: 1rem;
   border-collapse:separate;  /* Change from 'collapse' to 'separate' */
   border-spacing: 0 7px;        /* This will add a 10px gap between cells */
 
+}
+.danger-row {
+  background-color: red;
 }
 
 /* Table header styling */
@@ -141,6 +136,8 @@ padding-left: 16rem;}
   text-align: center;
   font-size: 14px;
   color:white;
+  border: none; /* Remove border from cells */
+
   border-bottom: 1px solid#0f0f0f;
 }
 
@@ -151,9 +148,14 @@ padding-left: 16rem;}
 /* Optional: Add a hover effect for table rows */
 
 
-.table td,
-.table th {
-  border: 1px solid#0f0f0fdf;
+/* Table cell styling */
+.table td {
+  padding-top: 1rem;  /* Keeps top padding */
+  padding-bottom: 1rem;  /* Keeps bottom padding */
+  text-align: center;
+  font-size: 14px;
+  color: white;
+  border-bottom: 1px solid #0f0f0f;
 }
 
  
