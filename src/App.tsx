@@ -23,6 +23,7 @@ const router = createBrowserRouter([
     path: "/sales",
     element: <Salesreport />, // Sales Report Route
   },
+  
   {
     path: "/winning",
     element: <Winning />, // Winner's Report Route

@@ -283,7 +283,7 @@ const Home: FC = () => {
         </div>
       )}
 
-
+{/* 
       <ul>
         <li> <Link to='/sales'>sales report</Link></li>
         <li> <Link to='/winning'>winning</Link></li>
@@ -294,7 +294,7 @@ const Home: FC = () => {
 
         
 
-      </ul>
+      </ul> */}
 
       <button className="save">Save</button>
 
