@@ -17,7 +17,6 @@ const SalesReport: FC<salesReportProps> = ({}) => {
     const formattedDate = today.toISOString().split('T')[0]; // Format as YYYY-MM-DD
     setDate(formattedDate); // Set the formatted date as the default value
   }, []);
-
   // Handle number input change
   const handleNumberChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNumber(e.target.value);
