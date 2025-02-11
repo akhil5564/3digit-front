@@ -8,6 +8,9 @@ import More from './Admin/More';
 import Netpay from './Main/Netpay';
 import Pnl from './Main/Pnl';
 import Countreport from './Main/Countreport';
+import InUserManager from './Admin/InUserManager';
+import CreateUser from './Admin/CreateUser';
+import Usercommission from './Main/Usercommission';
 
 // Create the router with createBrowserRouter
 const router = createBrowserRouter([
@@ -43,6 +46,21 @@ const router = createBrowserRouter([
   {
     path: "/countreport",
     element: <Countreport />, // Count Report Route
+  },
+
+  {
+    path: "/newuser",
+    element: <InUserManager />, // Net Pay Route
+  },
+
+  
+  {
+    path: "/comssission",
+    element: <Usercommission />, // Net Pay Route
+  },
+  {
+    path: "/createuser",
+    element: <CreateUser />, // Net Pay Route
   },
 ]);
 

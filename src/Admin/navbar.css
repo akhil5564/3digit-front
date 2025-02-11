@@ -63,40 +63,36 @@ button {
   border-radius: 50%;
   cursor: pointer;
 }
+.dropdown-1 {
+width: 100%; 
+background-color: white;
+z-index: 2800; 
+margin-left: 150px;
+}
 
 /* Dropdown Menu Styles */
-.dropdown{
-  top: 30px;  /* Adjust this based on your navbar height */
-left: 290px;  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  z-index: 1000;
-  width: 40px; /* Set width to 40px */
-  opacity: 0;
-  visibility: hidden;
-  pointer-events: none; /* Prevents interactions when not visible */
-  font-weight: 700;
-}
+
 li{
   font-weight: 700;
 }
 
 /* Show dropdown when active */
-.dropdown.show {
+.dropdown-1.show {
   opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-  width: 67px;
-font-weight: 700;}
+font-weight: 700;
+z-index: 1800;
+}
 
 /* Dropdown List */
-.dropdown ul {
+.dropdown-1 ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+  z-index: 1800;
 }
 
-.dropdown li {
+.dropdown-1 li {
+  z-index: 1200;
   padding: 4px 8px; /* Adjust padding for smaller size */
   cursor: pointer;
   font-size: 12px; /* Smaller font size */
@@ -105,7 +101,8 @@ font-weight: 700;}
   border-bottom: 1px solid #f0f0f0;
   transition: background-color 0.3s ease;
   padding: 1rem;
-  font-weight: 900
+  font-weight: 900;
+  z-index: 1800;
   
 }
 

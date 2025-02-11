@@ -1,9 +1,12 @@
 /* Dropdown Container Styling */
 .dropdown {
-    position: relative;
     display: inline-block;
   width: 100%; 
-background-color: white; }
+background-color: white; 
+}
+.drp{
+  z-index: 100;
+}
   
   /* Dropdown Button Styling */
   .dropdown .btn {
@@ -13,7 +16,6 @@ background-color: white; }
     background-color: white; /* Light background */
     color: #333; /* Text color */
     border: 1px solid #ccc; /* Light border */
-    border-radius: 5px; /* Rounded corners */
     text-align: left; /* Align text to the left */
     box-sizing: border-box;
   }
@@ -30,7 +32,6 @@ background-color: white; }
     padding: 0;
     width: 100%;
     top: 0;
-    z-index: 1200;
   }
   
   /* Dropdown Item Styling */
@@ -146,7 +147,6 @@ padding-left: 16rem;}
 }
 
 /* Optional: Add a hover effect for table rows */
-
 
 /* Table cell styling */
 .table td {

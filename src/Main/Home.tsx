@@ -167,6 +167,7 @@ const Home: FC = () => {
           </a>
         
           <ul className="dropdown-menu">
+          <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('1PM')}>3PM</a></li>
             <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('1PM')}>1PM</a></li>
             <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('6PM')}>6PM</a></li>
             <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('8PM')}>8PM</a></li>

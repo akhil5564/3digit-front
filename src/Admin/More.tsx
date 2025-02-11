@@ -1,5 +1,6 @@
 import  { FC } from 'react';
 import './more.css'
+import { Link } from 'react-router-dom';
 
 interface MoreProps {
   
@@ -11,7 +12,7 @@ const More: FC<MoreProps> = ({}) => {
 
 
       <div className='usermanage'>
-        <h2>USER MANAGE</h2>
+        <h2> <Link to='/newuser'>USER MANAGE</Link></h2>
       </div>
 
 <div  className='riskreport'>

@@ -34,7 +34,7 @@ const Navbar: React.FC<NavbarProps> = ({ handlePaste }) => {
 
       {/* Dropdown menu */}
       {isDropdownVisible && (
-        <div className="dropdown">
+        <div className="dropdown-1">
           <ul>
             <li><Link to='/sales'>SALES REPORT</Link></li>
             <li><Link to='/winning'>WINNER'S REPORT</Link></li>
