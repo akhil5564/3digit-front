@@ -20,13 +20,13 @@ const Navbar: React.FC<NavbarProps> = ({ handlePaste }) => {
       <div className="logo">
         <img src={logo} alt="logo" />
       </div>
-      <button onClick={handlePaste}>
+      <button className='nbtn' onClick={handlePaste}>
       <IconClipboardCopy stroke={2} />
       </button>
-      <button><IconCamera stroke={2} /></button>
+      <button className='nbtn' ><IconCamera stroke={2} /></button>
 
       {/* Toggle dropdown button */}
-      <button onClick={toggleDropdown}>
+      <button className='nbtn' onClick={toggleDropdown}>
         <IconAlignRight stroke={2} />
       </button>
 

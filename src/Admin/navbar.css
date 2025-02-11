@@ -21,7 +21,7 @@ body {
   max-height: 10px;
 }
 
-button {
+.nbtn {
   background-color: transparent;
   border: none;
   color: #e50914; /* Netflix red color */

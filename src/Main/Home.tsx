@@ -186,14 +186,14 @@ const Home: FC = () => {
       {visibleDigit === 'digit1' && (
         <div className="digit1">
           <div className="input1">
-            <input
+            <input className='inputs'
               type="number"
               placeholder="Num"
               value={numValue}
               onChange={handleNumChange}
               ref={inputRef1}
             />
-            <input
+            <input className='inputs'
               type="number"
               placeholder="Count"
               value={countValue}
@@ -220,14 +220,14 @@ const Home: FC = () => {
       {visibleDigit === 'digit2' && (
         <div className="digit2">
           <div className="input2">
-            <input
+            <input className='inputs'
               type="number"
               placeholder="Num"
               value={numValue2}
               onChange={handleNumChange2}
               ref={inputRef2}
             />
-            <input
+            <input className='inputs'
               type="number"
               placeholder="Count"
               value={countValue}
@@ -253,14 +253,14 @@ const Home: FC = () => {
       {visibleDigit === 'digit3' && (
         <div className="digit3">
           <div className="input3">
-            <input
+            <input  className='inputs'
               type="number"
               placeholder="Num"
               value={numValue3}
               onChange={handleNumChange3}
               ref={inputRef3}
             />
-            <input
+            <input className='inputs'
               type="number"
               placeholder="Count"
               value={countValue}
@@ -296,9 +296,9 @@ const Home: FC = () => {
 
       </ul> */}
 
-      <button className="save">Save</button>
+      <button className=" btn-save">Save</button>
 
-      <div className="table-container">
+      <div className="table-container-home">
         <h1 className="tamount">
           Total: {tableRows.reduce((total, row) => total + (parseInt(row.amount, 10) || 0), 0)}
         </h1>
