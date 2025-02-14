@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import './Usercom.css'
+import './Usercom.css';
 
 interface TicketTableRow {
   ticket: string;
-  comm: number | string;
+  comm: number | "";
 }
 
 const TicketTable: React.FC = () => {
@@ -22,8 +22,8 @@ const TicketTable: React.FC = () => {
 
   const handleInputChange = (index: number, value: string) => {
     const updatedRows = [...rows];
-    const parsedValue = value ? parseFloat(value) : '';
-    updatedRows[index].comm = isNaN(parsedValue) ? '' : parsedValue;
+    const parsedValue = value ? parseFloat(value) : "";
+    updatedRows[index].comm = isNaN(parsedValue) ? "" : parsedValue;
     setRows(updatedRows);
   };
 
@@ -49,7 +49,7 @@ const TicketTable: React.FC = () => {
           {rows.map((row, index) => (
             <tr
               key={index}
-              className={getRowClassName(row.ticket)} // Apply CSS class here
+              className={getRowClassName(row.ticket)}
             >
               <td>{row.ticket}</td>
               <td>
