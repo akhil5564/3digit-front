@@ -1,0 +1,26 @@
+.ticket-table {
+    width: 100%;
+  }
+  
+  
+  
+  .ticket-table tr.transparent-row {
+    background-color: transparent;
+  }
+  
+  .result-input {
+    width: 100%;
+    text-align: center;
+    font-size: 16px;
+  }
+  
+  .result-input::placeholder {
+    color: #060505;
+  }
+  
+  :placeholder-shown{
+    color: black;
+  }
+  .table-container{
+    background-color:rgba(0, 128, 0, 0.743);
+  }

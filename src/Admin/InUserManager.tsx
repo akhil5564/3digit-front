@@ -28,7 +28,7 @@ const user: FC<userProps> = ({}) => {
 
 <div className='createuser'>
     
-   <Link to='//createuser'><IconPlus stroke={2} /></Link> 
+   <Link to='/createuser'><IconPlus stroke={2} /></Link> 
 </div>
     </>
   );

@@ -1,55 +1,78 @@
-/* Container for the table */
+/* Basic styling for the table container */
 .table-container {
-    width: 80%;
-    margin: 20px auto;
-    padding: 20px;
-    border: 2px solid #ddd;
-    border-radius: 10px;
-    background-color: #f9f9f9;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Styling for the table */
-  .user-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-family: Arial, sans-serif;
-  }
-  
-  /* Table Header */
-  .user-table thead {
-    background-color: #4CAF50;
-    color: white;
-  }
-  
-  .user-table th {
-    padding: 12px 15px;
-    text-align: left;
-    font-size: 16px;
-  }
-  
-  /* Table Body */
-  .user-table tbody tr {
-    border-bottom: 1px solid #ddd;
-  }
-  
-  .user-table td {
-    padding: 12px 15px;
-    text-align: left;
-    font-size: 14px;
-  }
-  
-  /* Table Row Hover Effect */
-  .user-table tbody tr:hover {
-    background-color: #f1f1f1;
-  }
-  
-  /* Zebra Striping for Rows */
-  .user-table tbody tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  
-  .user-table tbody tr:nth-child(odd) {
-    background-color: #ffffff;
-  }
-  
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Styling for the ticket table */
+.ticket-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.ticket-table th,
+.ticket-table td {
+  padding: 10px 15px;
+  text-align: left;
+  border: 1px solid #720bf0;
+}
+
+.ticket-table th,.ticket-table td {
+  background-color: #f4f4f4;
+  color: #333;
+  font-weight: bold;
+
+}
+.ticket-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.ticket-table th, .ticket-table td {
+  padding: 8px 16px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.ticket-table tr.black-row {
+  background-color: black;
+  color: white; /* Ensures the text is visible on the black background */
+}
+
+.ticket-table tr.blue-row {
+  background-color: blue;
+  color: white; /* Ensures the text is visible on the blue background */
+}
+
+.ticket-table tr.transparent-row {
+  background-color: transparent;
+}
+
+.comm-input {
+  width: 100%;
+  padding: 4px;
+  text-align: center;
+}
+
+
+/* Hover effect on rows */
+.ticket-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Input field styling */
+.comm-input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #1a08e1;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.comm-input:focus {
+  border-color: #4a90e2;
+  outline: none;
+}

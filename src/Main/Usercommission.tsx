@@ -1,34 +1,72 @@
-import { FC } from 'react';
-import './Usercom.css';  // Import the CSS file for styling
+import React, { useState } from 'react';
+import './Usercom.css'
 
-interface UsercomProps {}
+interface TicketTableRow {
+  ticket: string;
+  comm: number | string;
+}
 
-const Usercom: FC<UsercomProps> = ({}) => {
+const TicketTable: React.FC = () => {
+  const initialRows: TicketTableRow[] = [
+    { ticket: 'A', comm: 0.0 },
+    { ticket: 'B', comm: 0.0 },
+    { ticket: 'C', comm: 0.0 },
+    { ticket: 'AB', comm: 0.0 },
+    { ticket: 'BC', comm: 0.0 },
+    { ticket: 'AC', comm: 0.0 },
+    { ticket: 'Super', comm: 0.0 },
+    { ticket: 'Box', comm: 0.0 },
+  ];
+
+  const [rows, setRows] = useState<TicketTableRow[]>(initialRows);
+
+  const handleInputChange = (index: number, value: string) => {
+    const updatedRows = [...rows];
+    const parsedValue = value ? parseFloat(value) : '';
+    updatedRows[index].comm = isNaN(parsedValue) ? '' : parsedValue;
+    setRows(updatedRows);
+  };
+
+  const getRowClassName = (ticket: string) => {
+    if (['A', 'B', 'C'].includes(ticket)) {
+      return 'black-row';
+    } else if (['AB', 'BC', 'AC'].includes(ticket)) {
+      return 'blue-row';
+    }
+    return 'transparent-row'; // default class for other tickets
+  };
+
   return (
     <div className="table-container">
-      <table className="user-table">
+      <table className="ticket-table">
         <thead>
           <tr>
             <th>Ticket</th>
-            <th>Commission</th>
+            <th>Comm</th>
           </tr>
         </thead>
         <tbody>
-       <tr>
-        <td>a</td>
-        <td>b</td>
-        <td>c</td>
-        <td>ab</td>
-        <td>bc</td>
-        <td>ac</td>
-        <td>super</td>
-        <td>box</td>
-
-       </tr>
+          {rows.map((row, index) => (
+            <tr
+              key={index}
+              className={getRowClassName(row.ticket)} // Apply CSS class here
+            >
+              <td>{row.ticket}</td>
+              <td>
+                <input
+                  className="comm-input"
+                  type="number"
+                  step="0.01"
+                  value={row.comm}
+                  onChange={(e) => handleInputChange(index, e.target.value)}
+                />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
   );
 };
 
-export default Usercom;
+export default TicketTable;

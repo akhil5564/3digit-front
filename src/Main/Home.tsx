@@ -28,6 +28,40 @@ const Home: FC = () => {
   const handleButtonClick = (digit: string) => {
     setVisibleDigit(digit);
   };
+  const handleSave = async () => {
+    const date = new Date();
+    const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+    const dataToSave = {
+      selectedTime,
+      tableRows,
+      date: formattedDate,
+    };
+  
+    try {
+      const response = await fetch('http://localhost:5000/addData', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(dataToSave),
+      });
+  
+      if (response.ok) {
+        console.log('Data saved successfully');
+        setTableRows([]); // Clear the table after saving the data
+        setNumValue('');  // Optionally reset input fields
+        setNumValue2('');
+        setNumValue3('');
+        setCountValue('');
+        setSelectedTime('3PM'); // Optionally reset the time selection
+      } else {
+        console.error('Failed to save data');
+      }
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  };
+  
 
   const handleNumChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
@@ -296,7 +330,7 @@ const Home: FC = () => {
 
       </ul> */}
 
-      <button className=" btn-save">Save</button>
+<button className="btn-save" onClick={handleSave}>Save</button>
 
       <div className="table-container-home">
         <h1 className="tamount">

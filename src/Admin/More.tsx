@@ -34,7 +34,9 @@ const More: FC<MoreProps> = ({}) => {
 </div>
 
 <div className='resultentry'>
-    <h2>RESULT ENTRY</h2>
+
+    <Link to='/resulentry'>    <h2>RESULT ENTRY</h2>
+    </Link>
 </div>
 
     <div className='sendtooutdealer'>

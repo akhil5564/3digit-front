@@ -11,6 +11,7 @@ import Countreport from './Main/Countreport';
 import InUserManager from './Admin/InUserManager';
 import CreateUser from './Admin/CreateUser';
 import Usercommission from './Main/Usercommission';
+import ResultEntry from './Admin/ResultEntry';
 
 // Create the router with createBrowserRouter
 const router = createBrowserRouter([
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
   {
     path: "/createuser",
     element: <CreateUser />, // Net Pay Route
+  },
+  {
+    path: "/resulentry",
+    element: <ResultEntry />, // Net Pay Route
   },
 ]);
 
