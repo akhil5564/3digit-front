@@ -3,7 +3,7 @@ import './Usercom.css';
 
 interface TicketTableRow {
   ticket: string;
-  comm: number | "";
+  comm: number;
 }
 
 const TicketTable: React.FC = () => {
@@ -22,8 +22,8 @@ const TicketTable: React.FC = () => {
 
   const handleInputChange = (index: number, value: string) => {
     const updatedRows = [...rows];
-    const parsedValue = value ? parseFloat(value) : "";
-    updatedRows[index].comm = isNaN(parsedValue) ? "" : parsedValue;
+    const parsedValue = value ? parseFloat(value) : 0; // Set default value to 0
+    updatedRows[index].comm = isNaN(parsedValue) ? 0 : parsedValue;
     setRows(updatedRows);
   };
 
