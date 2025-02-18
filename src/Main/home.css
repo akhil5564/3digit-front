@@ -119,6 +119,12 @@ padding-right: 1rem;
 .danger-row {
   background-color: red;
 }
+label{
+  color: #0f0f0f;
+}
+.chckbx{
+  margin-top: 1.4rem;
+}
 
 /* Table header styling */
 .table th {

@@ -1,7 +1,8 @@
-import { FC, useState, useRef, useEffect } from 'react';
+import { FC, useState, useRef, useEffect, ChangeEvent } from 'react';
 import Navbar from '../Admin/Navbar';
 import { IconTrash } from '@tabler/icons-react';
 import './home.css';
+import { data } from 'react-router-dom';
 
 const Home: FC = () => {
   const [selectedTime, setSelectedTime] = useState<string>('3PM');
@@ -11,15 +12,35 @@ const Home: FC = () => {
   const [numValue2, setNumValue2] = useState<string>('');
   const [numValue3, setNumValue3] = useState<string>('');
   const [countValue, setCountValue] = useState<string>(''); // Track count value for all digits
-
-
   const [tableRows, setTableRows] = useState<{ letter: string; num: string; count: string; amount: string }[]>([]); // Track letter, num, count, and amount
+  const [isSetChecked, setIsSetChecked] = useState<boolean>(false);
+
 
   const inputRef1 = useRef<HTMLInputElement | null>(null);
   const inputRef2 = useRef<HTMLInputElement | null>(null);
   const inputRef3 = useRef<HTMLInputElement | null>(null);
   const inputRef4 = useRef<HTMLInputElement | null>(null);
 
+  const generatePermutations = (num: string): string[] => {
+    const permutations: Set<string> = new Set();  // Use Set to avoid duplicates
+    
+    // Function to generate all permutations of a string
+    const permute = (str: string, prefix: string) => {
+      if (str.length === 0) {
+        permutations.add(prefix); // Add the final permutation to the Set
+      } else {
+        for (let i = 0; i < str.length; i++) {
+          const remaining = str.substring(0, i) + str.substring(i + 1);
+          permute(remaining, prefix + str[i]);
+        }
+      }
+    };
+  
+    permute(num, '');
+  
+    return Array.from(permutations); // Convert Set back to array for easier handling
+  };
+  
   const handleTimeSelect = (time: string) => {
     setSelectedTime(time);
     console.log('Selected time:', time);
@@ -28,41 +49,9 @@ const Home: FC = () => {
   const handleButtonClick = (digit: string) => {
     setVisibleDigit(digit);
   };
-  const handleSave = async () => {
-    const date = new Date();
-    const formattedDate = `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
-    const dataToSave = {
-      selectedTime,
-      tableRows,
-      date: formattedDate,
-    };
-  
-    try {
-      const response = await fetch('http://localhost:5000/addData', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(dataToSave),
-      });
-  
-      if (response.ok) {
-        console.log('Data saved successfully');
-        setTableRows([]); // Clear the table after saving the data
-        setNumValue('');  // Optionally reset input fields
-        setNumValue2('');
-        setNumValue3('');
-        setCountValue('');
-        setSelectedTime('3PM'); // Optionally reset the time selection
-      } else {
-        console.error('Failed to save data');
-      }
-    } catch (error) {
-      console.error('Error saving data:', error);
-    }
-  };
-  
 
+
+  
   const handleNumChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let value = e.target.value;
     if (value.length > 1) value = value.slice(0, 1);
@@ -92,12 +81,7 @@ const Home: FC = () => {
     else if (visibleDigit === 'digit2' && inputRef2.current) inputRef2.current.focus();
     else if (visibleDigit === 'digit3' && inputRef3.current) inputRef3.current.focus();
   }, [visibleDigit]);
-
   const handleDigit1ButtonClick = (value: string) => {
-
-    
-
-    
     if (value === 'All') {
       // Add A, B, and C to the table
       setTableRows((prevRows) => [
@@ -107,7 +91,6 @@ const Home: FC = () => {
         { letter: 'C', num: numValue, count: countValue, amount: (parseInt(countValue, 10) * 12).toString() },
       ]);
     } else {
-  
       const count = parseInt(countValue, 10) || 0;
       const amount = count * 12;
   
@@ -116,8 +99,11 @@ const Home: FC = () => {
         { letter: value, num: numValue, count: countValue, amount: amount.toString() },
       ]);
     }
-  };
   
+    // Clear the inputs after adding to the table
+    setNumValue('');
+    setCountValue('');
+  };
   const handleDigit2ButtonClick = (value: string) => {
     if (value === 'All') {
       // Add AB, BC, and AC to the table
@@ -128,7 +114,6 @@ const Home: FC = () => {
         { letter: 'AC', num: numValue2, count: countValue, amount: (parseInt(countValue, 10) * 10).toString() },
       ]);
     } else {
-  
       const count = parseInt(countValue, 10) || 0;
       const amount = count * 10;
   
@@ -137,27 +122,41 @@ const Home: FC = () => {
         { letter: value, num: numValue2, count: countValue, amount: amount.toString() },
       ]);
     }
-  };
   
+    // Clear the inputs after adding to the table
+    setNumValue2('');
+    setCountValue('');
+  };
   const handleDigit3ButtonClick = (value: string) => {
-    if (value === 'All') {
-      // Add SUPER and BOX to the table
+    const count = parseInt(countValue, 10) || 0;
+    const amount = count * 10;
+  
+    if (isSetChecked) {
+      // Generate permutations if "Set" checkbox is checked
+      const permutations = generatePermutations(numValue3);
+  
       setTableRows((prevRows) => [
         ...prevRows,
-        { letter: 'SUPER', num: numValue3, count: countValue, amount: (parseInt(countValue, 10) * 10).toString() },
-        { letter: 'BOX', num: numValue3, count: countValue, amount: (parseInt(countValue, 10) * 10).toString() },
+        ...permutations.map((perm) => ({
+          letter: value,
+          num: perm,
+          count: countValue,
+          amount: amount.toString(),
+        })),
       ]);
     } else {
-  
-      const count = parseInt(countValue, 10) || 0;
-      const amount = count * 10;
-  
+      // If "Set" checkbox is not checked, just add the value of numValue3
       setTableRows((prevRows) => [
         ...prevRows,
         { letter: value, num: numValue3, count: countValue, amount: amount.toString() },
       ]);
     }
+  
+    // Clear the inputs after adding to the table
+    setNumValue3('');
+    setCountValue('');
   };
+  
 
   // Function to delete a random row from the table
   const handleDeleteRandomRow = () => {
@@ -187,8 +186,40 @@ const Home: FC = () => {
       console.error('Failed to read clipboard data:', error);
     }
   };
-
+  const saveData = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/addData', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          selectedTime,
+          tableRows,
+        }),
+      });
   
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Data saved successfully. Custom ID:', data.customId);
+  
+        // Clear the table data
+        setTableRows([]);  // Reset table rows
+        setSelectedTime('');  // Reset selected time
+      } else {
+        throw new Error('Error saving data');
+      }
+    } catch (error) {
+      console.error('Error saving data:', error);
+    }
+  };
+  
+  
+  const handleSetCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setIsSetChecked(e.target.checked);
+  };
+  
+
   return (
     <>
       
@@ -235,8 +266,12 @@ const Home: FC = () => {
               ref={inputRef4}
             />
             <div className='chckbx'>
-              <input type="checkbox" />
-              <input type="checkbox" />
+            <label> Set
+  <input type="checkbox" /> 
+</label>
+<label>
+any <input type="checkbox" /> 
+</label>
               
             </div>
           </div>
@@ -269,8 +304,13 @@ const Home: FC = () => {
               ref={inputRef4}
             />
             <div className='chckbx'>
-              <input type="checkbox" />
-              <input type="checkbox" />
+            <label> Set
+  <input type="checkbox" /> 
+</label>
+<label>
+any <input type="checkbox" /> 
+</label>
+
             </div>
           </div>
 
@@ -302,9 +342,16 @@ const Home: FC = () => {
               ref={inputRef4}
             />
             <div className='chckbx'>
-              <input type="checkbox" />
-              <input type="checkbox" />
-            </div>
+  <label>
+    Set
+    <input type="checkbox" onChange={handleSetCheckboxChange} />
+  </label>
+  <label>
+    any
+    <input type="checkbox" />
+  </label>
+</div>
+
           </div>
           
 
@@ -330,7 +377,7 @@ const Home: FC = () => {
 
       </ul> */}
 
-<button className="btn-save" onClick={handleSave}>Save</button>
+<button className="btn-save" onClick={saveData}>Save</button>
 
       <div className="table-container-home">
         <h1 className="tamount">
