@@ -1,7 +1,6 @@
 import  { FC } from 'react';
 import { IconSticker2 } from '@tabler/icons-react';
-import './createuser.css';  // Make sure to import the CSS file
-
+import './Createuser.css'
 interface createuserProps {}
 
 const createuser: FC<createuserProps> = ({}) => {
