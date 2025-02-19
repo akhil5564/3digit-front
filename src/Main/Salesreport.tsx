@@ -1,6 +1,7 @@
 import React, { FC, useState, useEffect } from 'react';
 import { IconZoomCode } from '@tabler/icons-react';
 import '../Main/Salesreport.css';
+import { Link } from 'react-router-dom';
 
 
 interface salesReportProps {
@@ -151,7 +152,7 @@ const SalesReport: FC<salesReportProps> = ({}) => {
       
 
 
-      <button className="submit-button"><IconZoomCode stroke={2} /></button>
+      <button className="submit-button"><Link to='/reporter'><IconZoomCode stroke={2} /></Link></button>
     </div>
   );
 };

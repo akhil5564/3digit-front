@@ -12,6 +12,7 @@ import InUserManager from './Admin/InUserManager';
 import CreateUser from './Admin/CreateUser';
 import Usercommission from './Main/Usercommission';
 import ResultEntry from './Admin/ResultEntry';
+import Reporter from './Main/Reporter';
 
 // Create the router with createBrowserRouter
 const router = createBrowserRouter([
@@ -35,6 +36,10 @@ const router = createBrowserRouter([
   {
     path: "/more",
     element: <More />, // More Route
+  },
+  {
+    path: "/reporter",
+    element: <Reporter />, // More Route
   },
   {
     path: "/netpay",

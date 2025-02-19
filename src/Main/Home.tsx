@@ -6,7 +6,7 @@ import './home.css';
 const Home: FC = () => {
   const [selectedTime, setSelectedTime] = useState<string>('3PM');
   const [visibleDigit, setVisibleDigit] = useState<string | null>(null);
-
+  const [isEndVisible, setIsEndVisible] = useState<boolean>(false); // 
   const [numValue, setNumValue] = useState<string>('');
   const [numValue2, setNumValue2] = useState<string>('');
   const [numValue3, setNumValue3] = useState<string>('');
@@ -130,21 +130,20 @@ const Home: FC = () => {
     const count = parseInt(countValue, 10) || 0;
     const amount = count * 10;
   
-    if (isSetChecked) {
-      // Generate permutations if "Set" checkbox is checked
-      const permutations = generatePermutations(numValue3);
+    // Check if both numValue3 and the end input are provided
+    const startNum = parseInt(numValue3, 10);
+    const endNum = parseInt(numValue, 10);  // You can use `numValue` for the end value, or create a separate variable for it.
   
-      setTableRows((prevRows) => [
-        ...prevRows,
-        ...permutations.map((perm) => ({
-          letter: value,
-          num: perm,
-          count: countValue,
-          amount: amount.toString(),
-        })),
-      ]);
+    if (startNum && endNum && startNum <= endNum) {
+      // Loop through all numbers from startNum to endNum
+      for (let i = startNum; i <= endNum; i++) {
+        setTableRows((prevRows) => [
+          ...prevRows,
+          { letter: value, num: i.toString(), count: countValue, amount: amount.toString() },
+        ]);
+      }
     } else {
-      // If "Set" checkbox is not checked, just add the value of numValue3
+      // If no valid range, add just the starting number
       setTableRows((prevRows) => [
         ...prevRows,
         { letter: value, num: numValue3, count: countValue, amount: amount.toString() },
@@ -156,6 +155,11 @@ const Home: FC = () => {
     setCountValue('');
   };
   
+  // Function to handle clicking "any" checkbox
+  const handleAnyCheckboxChange = () => {
+    setIsEndVisible(!isEndVisible); // Toggle visibility of "end" input field
+  };
+
 
   // Function to delete a random row from the table
   const handleDeleteRandomRow = () => {
@@ -168,23 +172,51 @@ const Home: FC = () => {
   const handlePaste = async () => {
     try {
       const text = await navigator.clipboard.readText(); // Read clipboard content
-      const match = text.match(/^(\d+)=([\d]+)$/); // Match format `num=count`
-
-      if (match) {
-        const num = match[1];
-        const count = match[2];
-
-        setTableRows((prevRows) => [
-          ...prevRows,
-          { letter: 'Super', num, count, amount: (parseInt(count, 10) * 10).toString() }, // Example calculation for amount
-        ]);
+  
+      // Match format `num=operationcount`, supporting operators like *, -, +, etc.
+      const matches = text.match(/(\d+)([+\-*\/])(\d+)/g);
+  
+      if (matches) {
+        matches.forEach(match => {
+          const [num, operator, count] = match.match(/(\d+)([+\-*\/])(\d+)/).slice(1);
+          const countNum = parseInt(count, 10);
+  
+          // Only add to the table if count is greater than 0
+          if (countNum > 0) {
+            let amount = 0;
+  
+            // Perform the operation based on the operator
+            switch (operator) {
+              case '+':
+                amount = parseInt(num, 10) + countNum;
+                break;
+              case '-':
+                amount = parseInt(num, 10) - countNum;
+                break;
+              case '*':
+                amount = parseInt(num, 10) * countNum;
+                break;
+              case '/':
+                amount = parseInt(num, 10) / countNum;
+                break;
+              default:
+                console.error('Invalid operator');
+            }
+  
+            setTableRows(prevRows => [
+              ...prevRows,
+              { letter: 'Super', num, count: countNum.toString(), amount: amount.toString() }
+            ]);
+          }
+        });
       } else {
-        console.error('Clipboard data is not in the correct format');
+        console.error('No valid data in clipboard or incorrect format');
       }
     } catch (error) {
       console.error('Failed to read clipboard data:', error);
     }
   };
+  
   const saveData = async () => {
     try {
       const response = await fetch('http://localhost:5000/addData', {
@@ -323,45 +355,71 @@ any <input type="checkbox" />
         </div>
       )}
 
-      {visibleDigit === 'digit3' && (
-        <div className="digit3">
-          <div className="input3">
-            <input  className='inputs'
-              type="number"
-              placeholder="Num"
-              value={numValue3}
-              onChange={handleNumChange3}
-              ref={inputRef3}
-            />
-            <input className='inputs'
-              type="number"
-              placeholder="Count"
-              value={countValue}
-              onChange={(e) => setCountValue(e.target.value)} // Update count value for digit3
-              ref={inputRef4}
-            />
-            <div className='chckbx'>
-  <label>
-    Set
-    <input type="checkbox" onChange={handleSetCheckboxChange} />
-  </label>
-  <label>
-    any
-    <input type="checkbox" />
-  </label>
-</div>
+{visibleDigit === 'digit3' && (
+  <div className="digit3">
+    <div className="input3">
+      <input 
+        className="inputs"
+        type="number"
+        placeholder="Num"
+        value={numValue3}
+        onChange={handleNumChange3}
+        ref={inputRef3}
+      />
+      <input 
+        className="inputs"
+        type="number"
+        placeholder="End"
+        value={numValue} // This will be used for the end value
+        onChange={(e) => setNumValue(e.target.value)}
+      />
+      <input 
+        className="inputs"
+        type="number"
+        placeholder="Count"
+        value={countValue}
+        onChange={(e) => setCountValue(e.target.value)} 
+        ref={inputRef4}
+      />
+      <div className="chckbx">
+        <label>
+          Set
+          <input type="checkbox" onChange={handleSetCheckboxChange} />
+        </label>
+        <label>
+          any
+          <input type="checkbox" />
+        </label>
+      </div>
+    </div>
+    <div className="type">
+      <button 
+        type="button" 
+        className="btn btn-success" 
+        onClick={() => handleDigit3ButtonClick('SUPER')}
+      >
+        SUPER
+      </button>
+      <button 
+        type="button" 
+        className="btn btn-success" 
+        onClick={() => handleDigit3ButtonClick('BOX')}
+      >
+        BOX
+      </button>
+      <button 
+        type="button" 
+        className="btn btn-dark gray" 
+        onClick={() => handleDigit3ButtonClick('All')}
+      >
+        All
+      </button>
+    </div>
+  </div>
+)}
 
-          </div>
-          
+  
 
-          <div className="type">
-            <button type="button" className="btn btn-success" onClick={() => handleDigit3ButtonClick('super')}>SUPER</button>
-            <button type="button" className="btn btn-success" onClick={() => handleDigit3ButtonClick('BOX')}>BOX</button>
-            <button type="button" className="btn btn-dark gray" onClick={() => handleDigit3ButtonClick('All')}>All</button>
-            </div>
-         
-        </div>
-      )}
 
 {/* 
       <ul>
