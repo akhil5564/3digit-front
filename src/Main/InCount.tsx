@@ -117,7 +117,7 @@ const Reporter: FC = () => {
       {/* Container to hold both header and data */}
       <div className="table-containers">
         {filteredData.length === 0 ? (
-          <p>No data available with count > 5</p>
+          <p>No data available with count  5</p>
         ) : (
           filteredData.map((data) => (
             <div className="table-wrapper" key={data._id}>
