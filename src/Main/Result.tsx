@@ -1,5 +1,5 @@
 import  { useState, useEffect, SetStateAction } from 'react';
-import './Result.css'; // Assuming you have a Result.css file for styling
+import './result.css'; // Assuming you have a Result.css file for styling
 
 const Result = () => {
   const [results, setResults] = useState<any[]>([]); // Assuming the result type is `any[]`, adjust as necessary
