@@ -161,48 +161,46 @@ const Home: FC = () => {
     const randomIndex = Math.floor(Math.random() * tableRows.length);
     setTableRows((prevRows) => prevRows.filter((_, index) => index !== randomIndex));
   };
-
   const handlePaste = async () => {
     try {
       const text = await navigator.clipboard.readText(); // Read clipboard content
   
-      // Match format `num=operationcount`, supporting operators like *, -, +, etc.
-      const matches = text.match(/(\d+)([+\-*\/])(\d+)/g);
+      // Match format `num=operationcount`, supporting operators like '=', '-', '*', etc.
+      const matches = text.match(/(\d+)([=\-*\/])(\d+)/g); // Match num=operationcount, num-4, num*4, etc.
   
       if (matches) {
         matches.forEach(match => {
-          // Ensure the match is not null before calling .match() and .slice()
-          const matchParts = match.match(/(\d+)([+\-*\/])(\d+)/);
-          
+          // Ensure the match is not null before calling .match()
+          const matchParts = match.match(/(\d+)([=\-*\/])(\d+)/);
+  
           if (matchParts) {
             const [_, num, operator, count] = matchParts; // Destructure the match result
-            const countNum = parseInt(count, 10);
+            const numValue = parseInt(num, 10);
+            const countValue = parseInt(count, 10);
+  
+            let amount = 0;
+  
+            // Perform the operation based on the operator
+            switch (operator) {
+              case '=':
+                amount = 10 * countValue; // If `=` then multiply num by count
+                break;
+              case '-':
+                amount = 10 * countValue; // If `-` then subtract count from num
+                break;
+              case '*':
+                amount = 10 * countValue; // If `*` then multiply num by count
+                break;
+              default:
+                console.error('Invalid operator:', operator);
+                return;
+            }
   
             // Only add to the table if count is greater than 0
-            if (countNum > 0) {
-              let amount = 0;
-  
-              // Perform the operation based on the operator
-              switch (operator) {
-                case '+':
-                  amount = parseInt(num, 10) + countNum;
-                  break;
-                case '-':
-                  amount = parseInt(num, 10) - countNum;
-                  break;
-                case '*':
-                  amount = parseInt(num, 10) * countNum;
-                  break;
-                case '/':
-                  amount = parseInt(num, 10) / countNum;
-                  break;
-                default:
-                  console.error('Invalid operator');
-              }
-  
+            if (countValue > 0) {
               setTableRows(prevRows => [
                 ...prevRows,
-                { letter: 'Super', num, count: countNum.toString(), amount: amount.toString() }
+                { letter: 'Super', num: numValue.toString(), count: countValue.toString(), amount: amount.toString() }
               ]);
             }
           } else {
@@ -217,6 +215,8 @@ const Home: FC = () => {
     }
   };
   
+  
+
   const saveData = async () => {
     try {
       const currentTime = new Date();
