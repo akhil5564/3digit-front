@@ -1,4 +1,4 @@
-import React, { useState, useEffect, SetStateAction } from 'react';
+import  { useState, useEffect, SetStateAction } from 'react';
 import './Result.css'; // Assuming you have a Result.css file for styling
 import Winner from './Winner'; // Import WinningNumbersTable
 

@@ -6,6 +6,7 @@ import axios from 'axios';
 interface TableData {
   type: ReactNode;
   tableRows: {
+    id: any;
     _id: number;
     letter: string;
     num: string;
@@ -29,7 +30,7 @@ const Reporter: FC = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/getData');
+        const response = await axios.get('https://manu-netflix.onrender.com/getData');
         console.log('API Response:', response.data);
 
         if (Array.isArray(response.data)) {
@@ -62,19 +63,6 @@ const Reporter: FC = () => {
   const [longPress, setLongPress] = useState<boolean>(false); // State for detecting long press
 
   // Delete a specific container (table) and remove from state
-  const deleteContainer = async (id: string) => {
-    try {
-      // Send DELETE request to backend to delete the data
-      await axios.delete(`http://localhost:5000/deleteData/${id}`);
-      
-      // If successful, update state to remove the table from view
-      setTableData((prevData) => prevData.filter((data) => data._id !== id));
-      alert('Data deleted successfully');
-    } catch (error) {
-      console.error('Error deleting data:', error);
-      alert('Failed to delete data. Please try again.');
-    }
-  };
 
   // Handle row click
   const handleClick = (_id: string): void => {
@@ -91,13 +79,13 @@ const Reporter: FC = () => {
   const deleteRow = async (_id: string) => {
     try {
       // Send DELETE request for the specific row
-      await axios.delete(`http://localhost:5000/deleteRow/${_id}`);
+      await axios.delete(`https://manu-netflix.onrender.com/deleteRow/${_id}`);
       
       // Remove the row from state after successful deletion
       setTableData((prevData) => {
         return prevData.map((data) => ({
           ...data,
-          tableRows: data.tableRows.filter((row) => row._id !== _id)
+          tableRows: data.tableRows.filter((row) => row.id !==_id)
         }));
       });
       alert("Row deleted successfully");
@@ -132,22 +120,22 @@ const Reporter: FC = () => {
                   {data.tableRows.map((row, index) => (
                     <tr
                       key={row._id || index}
-                      onClick={() => handleClick(row._id)}
+                      onClick={() => handleClick(row.id)}
                       onContextMenu={(e) => {
                         e.preventDefault();
-                        handleLongPress(row._id);
+                        handleLongPress(row.id);
                       }} // Detect long press using right-click or long tap on mobile
-                      style={{ backgroundColor: selectedRow === row._id ? '#f0f0f0' : 'white' }} // Highlight selected row
+                      style={{ backgroundColor: selectedRow === row.id ? '#f0f0f0' : 'white' }} // Highlight selected row
                     >
                       <td>{row.num}</td>
                       <td>{row.letter}</td>
                       <td>{row.count}</td>
                       <td>{row.amount}</td>
-                      {selectedRow === row._id && longPress && (
+                      {selectedRow === row.id && longPress && (
                         <td>
                           <button 
                             className="delete-button" 
-                            onClick={() => deleteRow(row._id)}
+                            onClick={() => deleteRow(row.id)}
                           >
                             <IconTrash stroke={2} />
                           </button>

@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';  // To access query parameters i
 interface TableData {
   type: ReactNode;
   tableRows: {
+    id: string;
     _id: number;
     letter: string;
     num: string;
@@ -95,7 +96,7 @@ const Reporter: FC = () => {
       await axios.delete(`https://manu-netflix.onrender.com/deleteRow/${_id}`);
       setTableData((prevData) => prevData.map((data) => ({
         ...data,
-        tableRows: data.tableRows.filter((row) => row._id !== _id),
+        tableRows: data.tableRows.filter((row) => row.id !== _id),
       })));
       alert('Row deleted successfully');
     } catch (error) {
@@ -185,20 +186,20 @@ const handleCopy = () => {
                   {data.tableRows.map((row, index) => (
                     <tr
                       key={row._id || index}
-                      onClick={() => handleClick(row._id)}
+                      onClick={() => handleClick(row.id)}
                       onContextMenu={(e) => {
                         e.preventDefault();
-                        handleLongPress(row._id);
+                        handleLongPress(row.id);
                       }}
-                      style={{ backgroundColor: selectedRow === row._id ? '#f0f0f0' : 'white' }}
+                      style={{ backgroundColor: selectedRow === row.id ? '#f0f0f0' : 'white' }}
                     >
                       <td>{row.num}</td>
                       <td>{row.letter}</td>
                       <td>{row.count}</td>
                       <td>{row.amount}</td>
-                      {selectedRow === row._id && longPress && (
+                      {selectedRow === row.id && longPress && (
                         <td>
-                          <button className="delete-button" onClick={() => deleteRow(row._id)}>
+                          <button className="delete-button" onClick={() => deleteRow(row.id)}>
                             <IconTrash stroke={2} />
                           </button>
                         </td>

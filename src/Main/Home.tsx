@@ -6,7 +6,6 @@ import './home.css';
 const Home: FC = () => {
   const [selectedTime, setSelectedTime] = useState<string>('3PM');
   const [visibleDigit, setVisibleDigit] = useState<string | null>(null);
-  const [isEndVisible, setIsEndVisible] = useState<boolean>(false); // 
   const [numValue, setNumValue] = useState<string>('');
   const [numValue2, setNumValue2] = useState<string>('');
   const [numValue3, setNumValue3] = useState<string>('');
@@ -171,7 +170,7 @@ const Home: FC = () => {
   
       // Match format `num=operationcount`, supporting operators like *, -, +, etc.
       const matches = text.match(/(\d+)([+\-*\/])(\d+)/g);
-  
+
       if (matches) {
         matches.forEach(match => {
           const [num, operator, count] = match.match(/(\d+)([+\-*\/])(\d+)/).slice(1);

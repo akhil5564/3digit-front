@@ -1,4 +1,4 @@
-import React from 'react';
+import  { JSXElementConstructor, Key, ReactElement, ReactNode, ReactPortal } from 'react';
 
 // Define the Winner interface with explicit types
 interface Winner {
@@ -29,7 +29,7 @@ const Winner: React.FC<WinnerProps> = ({ winners }) => {
           </tr>
         </thead>
         <tbody>
-          {winners.map((winner) => (
+          {winners.map((winner: { ticket: boolean | Key | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; count: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; prize: string | number | bigint | boolean | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | ReactPortal | Promise<string | number | bigint | boolean | ReactPortal | ReactElement<unknown, string | JSXElementConstructor<any>> | Iterable<ReactNode> | null | undefined> | null | undefined; }) => (
             <tr key={winner.ticket} className="table-row">
               <td>{winner.ticket}</td>
               <td>{winner.count}</td>
