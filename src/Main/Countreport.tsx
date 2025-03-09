@@ -1,4 +1,4 @@
-import React, { FC, useState, useEffect } from 'react';
+import  { FC, useState, useEffect } from 'react';
 import '../Main/Salesreport.css'
 import { IconZoomCode } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
