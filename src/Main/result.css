@@ -1,0 +1,66 @@
+/* Center the entire content */
+.result-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* Start from the top */
+  align-items: center;
+  text-align: center; /* Centers the text within the container */
+  background-color: rgb(36, 222, 23);
+  color: rgb(23, 19, 19);
+  font-weight: 600;
+  font-size: larger;
+  overflow: auto; /* Enable both horizontal and vertical scroll */
+  height: 100vh; /* Make the container take the full height of the viewport */
+  padding: 20px;
+}
+
+.header {
+  margin-bottom: 20px; /* Adds space between the header and the results */
+}
+
+.result-grid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%; /* Optional: you can adjust the width as needed */
+  padding: 5px;
+}
+
+.result-grid-3-columns {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Creates 3 equal-width columns */
+  gap: 16px; /* Adds space between the grid items */
+  width: 100%; /* Optional: you can set the width to control the grid size */
+  background-color: rgba(57, 214, 46, 0.825);
+  color: black;
+  font-weight: 600;
+}
+
+.result-item {
+  padding: 6px; /* Optional: Adds padding inside each item */
+  text-align: center; /* Ensures the content inside the result-item is centered */
+  gap: 10px;
+}
+
+.single-column {
+  text-align: center; /* Centers the content for single column items */
+}
+.winning-numbers-table {
+  margin-top: 30px;
+  display: block; /* Ensure it is visible */
+}
+
+.winning-numbers-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.winning-numbers-table th, .winning-numbers-table td {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.winning-numbers-table th {
+  background-color: #f4f4f4;
+}

@@ -128,6 +128,7 @@ const Navbar: React.FC<NavbarProps> = ({ handlePaste }) => {
             <li><Link to='/netpay'>NET PAY</Link></li>
             <li><Link to='/countreport'>COUNT REPORT</Link></li>
             <li><Link to='/more'>MORE</Link></li>
+            <li><Link to='/result'>Result</Link></li>
             <li><Link to='/logout'>LOGOUT</Link></li>
           </ul>
         </div>

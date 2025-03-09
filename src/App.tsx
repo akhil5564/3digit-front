@@ -13,6 +13,9 @@ import CreateUser from './Admin/CreateUser';
 import Usercommission from './Main/Usercommission';
 import ResultEntry from './Admin/ResultEntry';
 import Reporter from './Main/Reporter';
+import Result from './Main/Result';
+import Winner from './Main/Winner';
+import InCount from './Main/InCount';
 
 // Create the router with createBrowserRouter
 const router = createBrowserRouter([
@@ -20,9 +23,17 @@ const router = createBrowserRouter([
     path: "/",
     element: <Login />, // Login Page Route
   },
+    {
+      path: "/counts",
+      element: <InCount />, // Login Page Route
+    },
   {
     path: "/home",
     element: <Home />, // Home Page Route
+  },
+  {
+    path: "/result",
+    element: <Result />, // Home Page Route
   },
   {
     path: "/sales",
@@ -31,7 +42,11 @@ const router = createBrowserRouter([
   
   {
     path: "/winning",
-    element: <Winning />, // Winner's Report Route
+    element: <Winning selectedDate={''} selectedTime={''} commonNumbers={[]} />, // Winner's Report Route
+  },
+  {
+    path: "/winner",
+    element: <Winner />, // Winner's Report Route
   },
   {
     path: "/more",

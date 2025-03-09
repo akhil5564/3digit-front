@@ -216,16 +216,51 @@ const Home: FC = () => {
       console.error('Failed to read clipboard data:', error);
     }
   };
-  
   const saveData = async () => {
     try {
-      const response = await fetch('http://localhost:5000/addData', {
+      const currentTime = new Date();
+      const currentHour = currentTime.getHours();
+      const currentMinute = currentTime.getMinutes();
+      
+      console.log(`currentTime: ${currentTime}`);
+      console.log(`currentHour: ${currentHour}, currentMinute: ${currentMinute}`);
+      console.log(`selectedTime: ${selectedTime}`);
+  
+      let timeBlock: string;
+  
+      // Check if the selected time is '1PM' and it's already after 12:59PM, prevent saving
+      if (selectedTime === '1PM' && (currentHour > 12 || (currentHour === 12 && currentMinute > 59))) {
+        alert('Cannot save data after 12:59 PM for 1PM block!');
+        return;
+      }
+      // Check if the selected time is '3PM' and it's already past 3:02PM, prevent saving
+      else if (selectedTime === '3PM' && currentHour === 15 && currentMinute > 0  ) {
+        alert('Cannot save data after 3:02 PM for 3PM block!');
+        return;
+      }
+      // Check if the selected time is '6PM' and it's between 5:59 PM and 6:05 PM
+      else if (selectedTime === '6PM' && currentHour === 17 && currentMinute >= 59 && currentMinute <= 5) {
+        timeBlock = '6PM';
+      }
+      // Check if the selected time is '8PM' and it's between 7:59 PM and 8:05 PM
+      else if (selectedTime === '8PM' && currentHour === 19 && currentMinute >= 59 && currentMinute <= 5) {
+        timeBlock = '8PM';
+      }
+      // If no condition matches, use the selected time from the dropdown
+      else {
+        timeBlock = selectedTime;
+      }
+  
+      console.log(`Final timeBlock: ${timeBlock}`);
+  
+      // Proceed with the API call
+      const response = await fetch('https://manu-netflix.onrender.com/addData', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          selectedTime,
+          selectedTime: timeBlock,
           tableRows,
         }),
       });
@@ -246,9 +281,30 @@ const Home: FC = () => {
   };
   
   
+  
   const handleSetCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setIsSetChecked(e.target.checked);
+    const isChecked = e.target.checked;
+  
+    if (isChecked) {
+      let numToPermute = '';
+      if (visibleDigit === 'digit1') numToPermute = numValue;
+      if (visibleDigit === 'digit2') numToPermute = numValue2;
+      if (visibleDigit === 'digit3') numToPermute = numValue3;
+  
+      if (numToPermute) {
+        const permutations = generatePermutations(numToPermute);
+        console.log('Generated Permutations:', permutations);
+  
+        // Add permutations to the table rows or handle as needed
+        setTableRows(prevRows => [
+          ...prevRows,
+          { letter: 'SET', num: numToPermute, count: countValue, amount: '0' },
+        ]);
+      }
+    }
   };
+  
+  
   
 
   return (
@@ -263,7 +319,7 @@ const Home: FC = () => {
           </a>
         
           <ul className="dropdown-menu">
-          <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('1PM')}>3PM</a></li>
+          <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('3PM')}>3PM</a></li>
             <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('1PM')}>1PM</a></li>
             <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('6PM')}>6PM</a></li>
             <li><a className="dropdown-item" href="#" onClick={() => handleTimeSelect('8PM')}>8PM</a></li>

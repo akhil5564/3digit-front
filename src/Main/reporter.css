@@ -5,7 +5,9 @@
     margin-bottom: 20px;
     color: #333;
   }
-  
+  .bill-infos{
+    width: 100%;
+  }
   /* General styling for the table */
   .reporter-table {
     width: 80%;
@@ -17,6 +19,17 @@
 
 
   }
+
+  .table-containers {
+    max-height: 740px; /* Adjust height to your preference */
+    overflow-y: auto;  /* Enables vertical scrolling */
+    margin-bottom: 20px;
+  }
+  
+
+  
+
+
   
   /* Style for table headers */
   .reporter-table th {
@@ -26,7 +39,6 @@
     text-align: left;
     font-weight: bold;
     border-bottom: 2px solid #ddd;
-    justify-content: space-around;
   }
   
   /* Style for table rows */
@@ -45,34 +57,12 @@
   .reporter-table tr:hover {
     background-color: #f79e9ecf;
   }
+ 
   
   /* Add striped row effect */
   .reporter-table tr:nth-child(even) {
     background-color: #f9f9f9;
   }
-  /* Styling for Bill No and CreatedAt */
-
-/* Styling for the createdAt part */
-.created-at {
-  font-style: italic;
-  margin-left: 3rem;
-}
-
-  /* Styling for the Delete button */
-.delete-button {
-  background-color: red;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-  font-size: 14px;
-  margin-left: 20px;
-}
-
-.delete-button:hover {
-  background-color: darkred;
-}
-
   
   /* Optional: Style for table on small screens */
   @media (max-width: 768px) {
