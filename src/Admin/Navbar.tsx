@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import './navbar.css';
 import logo from '../assets/6075689.webp';
 import { IconAlignRight, IconClipboardCopy, IconCamera } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
-import Tesseract from 'tesseract.js';
 
 // Explicitly type the handlePaste function in NavbarProps interface
 interface NavbarProps {

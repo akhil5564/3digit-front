@@ -12,7 +12,6 @@ const Home: FC = () => {
   const [numValue3, setNumValue3] = useState<string>('');
   const [countValue, setCountValue] = useState<string>(''); // Track count value for all digits
   const [tableRows, setTableRows] = useState<{ letter: string; num: string; count: string; amount: string }[]>([]); // Track letter, num, count, and amount
-  const [isSetChecked, setIsSetChecked] = useState<boolean>(false);
 
 
   const inputRef1 = useRef<HTMLInputElement | null>(null);
@@ -156,9 +155,6 @@ const Home: FC = () => {
   };
   
   // Function to handle clicking "any" checkbox
-  const handleAnyCheckboxChange = () => {
-    setIsEndVisible(!isEndVisible); // Toggle visibility of "end" input field
-  };
 
 
   // Function to delete a random row from the table

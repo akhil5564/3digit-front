@@ -1,12 +1,14 @@
 import React from 'react';
 
-// Define the Winner component that receives winners data as props
+// Define the Winner interface with explicit types
+interface Winner {
+  ticket: string;
+  count: number;
+  prize: number;
+}
+
 interface WinnerProps {
-  winners: {
-    ticket: string;
-    count: number;
-    prize: number;
-  }[];
+  winners: Winner[];
 }
 
 const Winner: React.FC<WinnerProps> = ({ winners }) => {
@@ -27,8 +29,8 @@ const Winner: React.FC<WinnerProps> = ({ winners }) => {
           </tr>
         </thead>
         <tbody>
-          {winners.map((winner, index) => (
-            <tr key={index} className="table-row">
+          {winners.map((winner) => (
+            <tr key={winner.ticket} className="table-row">
               <td>{winner.ticket}</td>
               <td>{winner.count}</td>
               <td>{winner.prize}</td>
