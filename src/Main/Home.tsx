@@ -162,46 +162,51 @@ const Home: FC = () => {
     setTableRows((prevRows) => prevRows.filter((_, index) => index !== randomIndex));
   };
 
-
-  // Function to handle paste
   const handlePaste = async () => {
     try {
       const text = await navigator.clipboard.readText(); // Read clipboard content
   
       // Match format `num=operationcount`, supporting operators like *, -, +, etc.
       const matches = text.match(/(\d+)([+\-*\/])(\d+)/g);
-
+  
       if (matches) {
         matches.forEach(match => {
-          const [num, operator, count] = match.match(/(\d+)([+\-*\/])(\d+)/).slice(1);
-          const countNum = parseInt(count, 10);
+          // Ensure the match is not null before calling .match() and .slice()
+          const matchParts = match.match(/(\d+)([+\-*\/])(\d+)/);
+          
+          if (matchParts) {
+            const [_, num, operator, count] = matchParts; // Destructure the match result
+            const countNum = parseInt(count, 10);
   
-          // Only add to the table if count is greater than 0
-          if (countNum > 0) {
-            let amount = 0;
+            // Only add to the table if count is greater than 0
+            if (countNum > 0) {
+              let amount = 0;
   
-            // Perform the operation based on the operator
-            switch (operator) {
-              case '+':
-                amount = parseInt(num, 10) + countNum;
-                break;
-              case '-':
-                amount = parseInt(num, 10) - countNum;
-                break;
-              case '*':
-                amount = parseInt(num, 10) * countNum;
-                break;
-              case '/':
-                amount = parseInt(num, 10) / countNum;
-                break;
-              default:
-                console.error('Invalid operator');
+              // Perform the operation based on the operator
+              switch (operator) {
+                case '+':
+                  amount = parseInt(num, 10) + countNum;
+                  break;
+                case '-':
+                  amount = parseInt(num, 10) - countNum;
+                  break;
+                case '*':
+                  amount = parseInt(num, 10) * countNum;
+                  break;
+                case '/':
+                  amount = parseInt(num, 10) / countNum;
+                  break;
+                default:
+                  console.error('Invalid operator');
+              }
+  
+              setTableRows(prevRows => [
+                ...prevRows,
+                { letter: 'Super', num, count: countNum.toString(), amount: amount.toString() }
+              ]);
             }
-  
-            setTableRows(prevRows => [
-              ...prevRows,
-              { letter: 'Super', num, count: countNum.toString(), amount: amount.toString() }
-            ]);
+          } else {
+            console.error('Invalid match format:', match);
           }
         });
       } else {
@@ -211,6 +216,7 @@ const Home: FC = () => {
       console.error('Failed to read clipboard data:', error);
     }
   };
+  
   const saveData = async () => {
     try {
       const currentTime = new Date();

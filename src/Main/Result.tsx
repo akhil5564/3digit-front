@@ -1,6 +1,5 @@
 import  { useState, useEffect, SetStateAction } from 'react';
 import './Result.css'; // Assuming you have a Result.css file for styling
-import Winner from './Winner'; // Import WinningNumbersTable
 
 const Result = () => {
   const [results, setResults] = useState<any[]>([]); // Assuming the result type is `any[]`, adjust as necessary
@@ -85,7 +84,6 @@ const Result = () => {
       </div>
 
       {/* Show the Winner table if matching tickets are found */}
-      {winners && winners.length > 0 && <Winner winners={winners} />}
       </div>
   );
 };
