@@ -1,4 +1,3 @@
-import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Home from './Main/Home';
 import Login from './login/Login';
@@ -46,7 +45,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/winner",
-    element: <Winner />, // Winner's Report Route
+    element: <Winner winners={[]} />, // Winner's Report Route
   },
   {
     path: "/more",
