@@ -52,12 +52,21 @@
     border-spacing: 0 2px;        /* This will add a 10px gap between cells */
 
   }
-  
-  /* Hover effect for rows */
-  .reporter-table tr:hover {
-    background-color: #f79e9ecf;
+  .footer-table {
+    position: fixed;
+    bottom: 0;  /* Position the footer at the bottom of the screen */
+    left: 0;  /* Align the footer to the left */
+    width: 100%;  /* Make the footer stretch the full width of the screen */
+    background-color: black;
+    color: whitesmoke;
+    height: 6rem;
+    font-weight: 700;
+    font-size: larger;
+    justify-content:space-around;
+    align-items: center;
+    z-index: 1000;  /* Ensure it stays on top of other content */
   }
- 
+  
   
   /* Add striped row effect */
   .reporter-table tr:nth-child(even) {

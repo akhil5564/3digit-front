@@ -105,46 +105,44 @@ const Reporter: FC = () => {
     setLongPress(false);  // Hide delete button after action
   };
 
+  // Format data for copy to clipboard
+  const formatDataForCopy = (tableData: TableData[]) => {
+    let formattedString = '';
 
-// Format data for copy to clipboard
-const formatDataForCopy = (tableData: TableData[]) => {
-  let formattedString = '';
+    tableData.forEach((data) => {
+      data.tableRows.forEach((row) => {
+        const num = row.num;
+        let count = parseInt(row.count); // Ensure count is a number
+        const letter = row.letter.split(',');
 
-  tableData.forEach((data) => {
-    data.tableRows.forEach((row) => {
-      const num = row.num;
-      let count = parseInt(row.count); // Ensure count is a number
-      const letter = row.letter.split(',');
-
-      // Only include data where the count is greater than or equal to 5
-      if (count < 5) {
-        return; // Skip this row if count is less than 5
-      }
-
-      // Subtract 5 from the count
-      count -= 5;
-
-      letter.forEach((type) => {
-        // Handle cases based on type
-        if (type === 'super') {
-          formattedString += `${num}=${count}Super\n`;  // Showing 'Super' for the 'super' type
-        } else if (type === 'box') {
-          formattedString += `${num}=${count}B\n`;  // For 'box', appending 'B'
-        } else {
-          // For types like ab, bc, ac
-          type.split(',').forEach((subType) => {
-            formattedString += `${subType}=${num}=${count}\n`;
-          });
+        // Only include data where the count is greater than or equal to 5
+        if (count < 5) {
+          return; // Skip this row if count is less than 5
         }
+
+        // Subtract 5 from the count
+        count -= 5;
+
+        letter.forEach((type) => {
+          // Handle cases based on type
+          if (type === 'super') {
+            formattedString += `${num}=${count}Super\n`;  // Showing 'Super' for the 'super' type
+          } else if (type === 'box') {
+            formattedString += `${num}=${count}B\n`;  // For 'box', appending 'B'
+          } else {
+            // For types like ab, bc, ac
+            type.split(',').forEach((subType) => {
+              formattedString += `${subType}=${num}=${count}\n`;
+            });
+          }
+        });
       });
     });
-  });
 
-  return formattedString.trim(); // Return the formatted data
-};
+    return formattedString.trim(); // Return the formatted data
+  };
 
-
-const handleCopy = () => {
+  const handleCopy = () => {
     const formattedData = formatDataForCopy(filteredData);
     navigator.clipboard.writeText(formattedData)
       .then(() => {
@@ -154,6 +152,24 @@ const handleCopy = () => {
         alert('Failed to copy data to clipboard.');
       });
   };
+
+  // Calculate total count and amount
+  const calculateTotals = (filteredData: TableData[]) => {
+    let totalCount = 0;
+    let totalAmount = 0;
+
+    filteredData.forEach((data) => {
+      data.tableRows.forEach((row) => {
+        totalCount += parseInt(row.count); // Add the count value
+        totalAmount += parseFloat(row.amount); // Add the amount value
+      });
+    });
+
+    return { totalCount, totalAmount };
+  };
+
+  // Calculate totals for the filtered data
+  const { totalCount, totalAmount } = calculateTotals(filteredData);
 
   // Loading and error states
   if (loading) return <p>Loading...</p>;
@@ -210,6 +226,15 @@ const handleCopy = () => {
               </table>
             </div>
           ))}
+          {/* Footer with the total row */}
+          <table className="footer-table">
+            <tfoot>
+              <tr>
+                <td colSpan={2}>Total Count:{totalCount}</td>
+                <td>Total Amount:{totalAmount.toFixed(2)}</td>
+              </tr>
+            </tfoot>
+          </table>
         </>
       )}
     </div>

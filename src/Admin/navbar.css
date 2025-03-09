@@ -52,10 +52,6 @@ body {
   transition: color 0.3s;
 }
 
-.menu a:hover {
-  color: #e50914; /* Netflix red on hover */
-}
-
 /* User avatar styles */
 .user .user-avatar {
   height: 30px;
@@ -111,16 +107,6 @@ z-index: 1800;
   border-bottom: none;
 }
 
-/* Hover effect for list items */
-.dropdown li:hover {
-  background-color: #f4f4f4;
-  color: #007BFF; /* Blue color on hover */
-}
 
 /* Make dropdown show on button click */
-.navbar button:hover + .dropdown,
-.navbar button:focus + .dropdown {
-  opacity: 1;
-  visibility: visible;
-  pointer-events: auto;
-}
+
