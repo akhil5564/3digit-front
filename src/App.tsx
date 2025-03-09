@@ -45,7 +45,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/winner",
-    element: <Winner winners={[]} />, // Winner's Report Route
+    element: <Winner />, // Winner's Report Route
   },
   {
     path: "/more",
