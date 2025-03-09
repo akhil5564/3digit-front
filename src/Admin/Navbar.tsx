@@ -5,6 +5,7 @@ import { IconAlignRight, IconClipboardCopy, IconCamera } from '@tabler/icons-rea
 import { Link } from 'react-router-dom';
 import Tesseract from 'tesseract.js';
 
+// Explicitly type the handlePaste function in NavbarProps interface
 interface NavbarProps {
   handlePaste: () => void;
 }
