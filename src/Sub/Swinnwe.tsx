@@ -77,7 +77,8 @@ const ResultsComponent: React.FC = () => {
   };
 
   // Prize calculation based on ticket number
-  const getPrize = (ticket: string) => {
+  const getPrize = (ticket: string, _count: number, _letter: string) => {
+    // Adjust your logic based on the ticket, count, and letter
     switch (ticket) {
       case '1':
         return 5000;
@@ -93,6 +94,7 @@ const ResultsComponent: React.FC = () => {
         return 20; // For all other ticket numbers
     }
   };
+  
 
   // Show loading state
   if (loading) {
@@ -173,7 +175,7 @@ const ResultsComponent: React.FC = () => {
                   <td>{matchedData[0].count}</td>
                   {/* Calculate prize: matchedData[0].count * getPrize(result.ticket) */}
                   <td>{parseInt(matchedData[0].count, 10) * getPrize(result.ticket, parseInt(matchedData[0].count, 10), matchedData[0].letter)}</td>
-                </>
+                  </>
               ) : (
                 <td colSpan={2}>No Winning</td>
               )}
