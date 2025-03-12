@@ -1,19 +1,23 @@
-import  { FC, useState } from 'react';
+import { FC, useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
-import './login.css'
+import './login.css';
 
 const Login: FC = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate(); // Hook to navigate to the next page
+
+  // Handle login logic with validation for both sas and kjp
   const handleLogin = () => {
     if (username === 'sas' && password === 'pops') {
-      navigate('/home'); // Redirect to home page on successful login
+      navigate('/home'); // Redirect to home page on successful login for sas
+    } else if (username === 'kjp' && password === '400') {
+      navigate('/shome'); // Redirect to home page on successful login for kjp
     } else {
       alert("Invalid username or password.");
     }
   };
-  
+
   return (
     <div className="login-container">
       <h2>Login Page</h2>

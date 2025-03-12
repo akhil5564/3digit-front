@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import './result.css'; // Import the CSS file
+import '../Main/result.css'; // Import the CSS file
 
 interface Result {
   ticket: string;
@@ -21,7 +21,6 @@ interface Data {
   selectedTime: string;
   tableRows: TableRow[];
 }
-
 const ResultsComponent: React.FC = () => {
   const [results, setResults] = useState<Result[]>([]); // Store fetched results
   const [data, setData] = useState<Data[]>([]); // Store fetched table data
@@ -72,23 +71,13 @@ const ResultsComponent: React.FC = () => {
   // Get matching data from tableRows based on result (3-digit number)
   const getMatchedData = (result: string) => {
     const match = data.flatMap((item) =>
-      item.tableRows.filter(
-        (row) => row.num === result || (row.letter === 'A' && row.num === '5') // check for letter A and num 5
-      )
+      item.tableRows.filter((row) => row.num === result)
     );
     return match;
   };
 
   // Prize calculation based on ticket number
-  const getPrize = (ticket: string, count: number, letter: string) => {
-    // Check if the type is 'Box' or 'Super' and calculate based on count
-    if (letter === 'BOX') {
-      return 3000 * count;  // If type is 'Box', return count * 3000
-    } else if (letter === 'Super') {
-      return 5000 * count;  // If type is 'Super', return count * 5000
-    }
-  
-    // For other ticket numbers
+  const getPrize = (ticket: string) => {
     switch (ticket) {
       case '1':
         return 5000;
@@ -166,87 +155,47 @@ const ResultsComponent: React.FC = () => {
 
       {/* Winning Results Table */}
       {winningResults.length > 0 && (
-        <div className="winning-results">
-          <h3>Winning Results</h3>
-          <table className="results-table">
-            <thead>
-              <tr>
-                <th>Ticket</th>
-                <th>Count</th>
-                <th>Prize</th> {/* New column for prize */}
-              </tr>
-            </thead>
-            <tbody>
-              {winningResults.map((result, index) => {
-                const matchedData = getMatchedData(result.result);
-                return (
-                  <tr key={index}>
-                    <td>{result.ticket}.{result.result}</td>
-                    {matchedData.length > 0 ? (
-                      <>
-                        <td>{matchedData[0].count}</td>
-                        {/* Calculate prize: matchedData[0].count * getPrize(result.ticket) */}
-                        <td>{parseInt(matchedData[0].count, 10) * getPrize(result.ticket, parseInt(matchedData[0].count, 10), matchedData[0].letter)}</td>
-                      </>
-                    ) : (
-                      <td colSpan={2}>No Winning</td>
-                    )}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
+  <div className="winning-results">
+    <h3>Winning Results</h3>
+    <table className="results-table">
+      <thead>
+        <tr>
+          <th>Ticket</th>
+          <th>Count</th>
+          <th>Prize</th> {/* New column for prize */}
+        </tr>
+      </thead>
+      <tbody>
+        {winningResults.map((result, index) => {
+          const matchedData = getMatchedData(result.result);
+          return (
+            <tr key={index}>
+              <td>{result.ticket}.{result.result}</td>
+              {matchedData.length > 0 ? (
+                <>
+                  <td>{matchedData[0].count}</td>
+                  {/* Calculate prize: matchedData[0].count * getPrize(result.ticket) */}
+                  <td>{parseInt(matchedData[0].count, 10) * getPrize(result.ticket, parseInt(matchedData[0].count, 10), matchedData[0].letter)}</td>
+                </>
+              ) : (
+                <td colSpan={2}>No Winning</td>
+              )}
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  </div>
+)}
 
-      {/* Group 1: Results for Tickets 1-5 */}
-      {group1.length > 0 && (
-        <div className="group-1">
-          <table className="results-table">
-            <tbody>
-              {group1
-                .filter((value, index, self) =>
-                  index === self.findIndex((t) => t.ticket === value.ticket) // Ensure no duplicates
-                )
-                .map((result, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{result.ticket} : {result.result}</td> {/* Display ticket number */}
-                    </tr>
-                  );
-                })}
-            </tbody>
-          </table>
-        </div>
-      )}
 
       {/* Group 2: Remaining Results */}
-      {group2.length > 0 && (
-        <div className="group-2">
-          <table className="results-table">
-            <tbody>
-              {group2.map((result, index) => {
-                if (index % 3 === 0) {
-                  return (
-                    <tr key={index}>
-                      <td>{result.result}</td>
-                      {group2[index + 1] && (
-                        <td>{group2[index + 1].result}</td>
-                      )}
-                      {group2[index + 2] && (
-                        <td>{group2[index + 2].result}</td>
-                      )}
-                    </tr>
-                  );
-                }
-                return null;
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
+    
     </div>
   );
 };
 
 export default ResultsComponent;
+
+
+

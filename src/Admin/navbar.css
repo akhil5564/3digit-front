@@ -109,4 +109,9 @@ z-index: 1800;
 
 
 /* Make dropdown show on button click */
-
+.navbar button:hover + .dropdown,
+.navbar button:focus + .dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}

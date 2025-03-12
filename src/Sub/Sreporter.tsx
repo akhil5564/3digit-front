@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from 'react';
-import './reporter.css';  // CSS for styling
-import { IconTrash, IconCopy } from '@tabler/icons-react';  // Trash and Copy icons
+import '../Main/reporter.css';  // CSS for styling
+import { IconTrash,  } from '@tabler/icons-react';  // Trash and Copy icons
 import axios from 'axios';  // Axios for making API calls
 import { useLocation } from 'react-router-dom';  // To access query parameters in the URL
 
@@ -100,27 +100,16 @@ const Reporter: FC = () => {
   if (error) return <p>{error}</p>;
 
   // Handle Delete Container Action (delete the entire set of rows within a container)
-  const handleDeleteContainer = async (containerId: string) => {
+  const handleDeleteContainer = (containerId: string) => {
     if (shouldDisableDelete(selectedTime || '')) {
       setErrorMessage(`Cannot delete data for ${selectedTime}. The cutoff time has passed.`);
-      return; // Prevent deletion if the time has passed
+      return; // Prevent deletion if time has passed
     }
-  
-    try {
-      // Send a DELETE request to the backend API
-      const response = await axios.delete(`https://manu-netflix.onrender.com/deleteData/${containerId}`);
-      
-      if (response.status === 200) {
-        // Successfully deleted the container, update state to remove it from the UI
-        const updatedData = filteredData.filter((data) => data._id !== containerId);
-        setFilteredData(updatedData);
-      }
-    } catch (error) {
-      console.error(error);
-      setErrorMessage('Failed to delete container. Please try again later.');
-    }
+
+    // If it's allowed, remove the container
+    const updatedData = filteredData.filter((data) => data._id !== containerId); // Filter out the entire container
+    setFilteredData(updatedData);
   };
-  
 
   // Handle Delete Row Action (delete an individual row)
   const handleDeleteRow = (rowId: number) => {
@@ -151,28 +140,36 @@ const Reporter: FC = () => {
               <table className="reporter-table">
                 <thead>
                   <tr>
-                    <th colSpan={6} className="bill-infos">
+                    <th colSpan={7} className="bill-infos">
                       Bill No: {data.customId}
                       {new Date(data.createdAt).toLocaleString()}
 
                       <button
-  className="delete-container-btn"
-  onClick={() => handleDeleteContainer(data._id)} // Delete entire container
-  aria-label="Delete Container"
->
-  <IconTrash
-    stroke={2}
-    disabled={shouldDisableDelete(data.selectedTime)} // Disable delete if time has passed
-    style={shouldDisableDelete(data.selectedTime) ? { cursor: 'not-allowed', opacity: 0.5 } : {}}
-  />
-</button>
-
+                        className="delete-container-btn"
+                        onClick={() => handleDeleteContainer(data._id)} // Delete entire container
+                      >
+                        <IconTrash
+                          stroke={2}
+                          disabled={shouldDisableDelete(data.selectedTime)} // Disable delete for the container if the time has passed
+                          style={shouldDisableDelete(data.selectedTime) ? { cursor: 'not-allowed', opacity: 0.5 } : {}}
+                        />
+                      </button>
                     </th>
+                  </tr>
+                  <tr>
+                    <th>#</th> {/* New column for sequential ID */}
+                    <th>Num</th>
+                    <th>Letter</th>
+                    <th>Count</th>
+                    <th>Amount</th>
+                    <th>Time</th>
+                    <th>Action</th>
                   </tr>
                 </thead>
                 <tbody>
-                  {data.tableRows.map((row) => (
+                  {data.tableRows.map((row, index) => (
                     <tr key={row._id}>
+                      <td>{index + 1}</td> {/* Sequential ID */}
                       <td>{row.num}</td>
                       <td>{row.letter}</td>
                       <td>{row.count}</td>

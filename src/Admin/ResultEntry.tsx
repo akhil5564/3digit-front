@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import Result from '../Main/Result'; // Import the Result component
 import './resultentry.css';
 
-// Define types for rows and tickets
 interface Ticket {
   ticket: string;
   result: string;
@@ -12,64 +12,63 @@ interface Row {
 }
 
 const TicketTable: React.FC = () => {
-  const [selectedDate, setSelectedDate] = useState<string>('');
-  const [selectedTime, setSelectedTime] = useState<string>('1pm'); // Default time is 1pm
+  const [selectedDate, setSelectedDate] = useState<string>(''); // Selected date
+  const [selectedTime, setSelectedTime] = useState<string>('1pm'); // Selected time slot
+  const [savedResults, setSavedResults] = useState<Record<string, any>>({}); // Results saved for specific date and time
+  const [rows, setRows] = useState<Row[]>([]); // Rows for the table
 
-  // Generate random 3-digit result for tickets
+  // Generate random 3-digit result for tickets (if needed later for saving)
   const generateRandomNumber = () => {
-    return Math.floor(100 + Math.random() * 900).toString(); // Generate a 3-digit random number
+    return Math.floor(100 + Math.random() * 900).toString();
   };
 
-  // Generate top 5 rows (1 column each)
+  // Generate rows for the top tickets (5 rows with 1 ticket each)
   const generateTopRows = (): Row[] => {
     return Array.from({ length: 5 }, (_, rowIndex) => ({
-      tickets: [
-        { ticket: `${rowIndex + 1}`, result: generateRandomNumber() },
-      ],
+      tickets: [{ ticket: `${rowIndex + 1}`, result: '' }], // Start with empty results
     }));
   };
 
-  // Generate 10 rows with 3 columns each
+  // Generate rows for main tickets (10 rows with 3 tickets per row)
   const generateMainRows = (): Row[] => {
     return Array.from({ length: 10 }, (_, rowIndex) => ({
       tickets: Array.from({ length: 3 }, (_, colIndex) => {
-        const ticketNumber = rowIndex * 3 + colIndex + 1;
-        return { ticket: ticketNumber.toString(), result: generateRandomNumber() };
+        const ticketNumber = rowIndex * 3 + colIndex + 6; // Start from ticket 6 for the main rows
+        return { ticket: ticketNumber.toString(), result: '' }; // Start with empty results
       }),
     }));
   };
 
-  const [rows, setRows] = useState<Row[]>([...generateTopRows(), ...generateMainRows()]);
-
-  // Handle input changes for ticket results
+  // Handle changes in the result input
   const handleInputChange = (rowIndex: number, colIndex: number, value: string) => {
     const updatedRows = [...rows];
     const row = updatedRows[rowIndex];
     const ticket = row.tickets[colIndex];
 
-    if (value === '' || /^[0-9]{3}$/.test(value)) {
-      ticket.result = value;
+    // Allow the value to be empty or match a number of 1 to 3 digits
+    if (value === '' || /^[0-9]{1,3}$/.test(value)) {
+      ticket.result = value; // Update the result with the valid value
     }
 
     setRows(updatedRows);
   };
 
-  // Get class names based on the ticket number (top vs main rows)
+  // Assign row classes based on ticket number
   const getRowClassName = (ticket: string): string => {
     if (parseInt(ticket) <= 5) {
-      return 'top-ticket-row'; // For top 5 rows
+      return 'top-ticket-row';
     }
-    return 'main-ticket-row'; // For the 10x3 grid rows
+    return 'main-ticket-row';
   };
 
-  // Check if the save button should be disabled (check if any result is invalid or empty)
+  // Check if the save button should be disabled
   const isSaveButtonDisabled = () => {
     return rows.some((row) =>
       row.tickets.some((ticket) => ticket.result === '' || !/^[0-9]{3}$/.test(ticket.result))
     );
   };
 
-  // Handle saving data
+  // Handle saving results
   const handleSave = async () => {
     if (!selectedDate) {
       alert('Please select a date.');
@@ -77,54 +76,51 @@ const TicketTable: React.FC = () => {
     }
 
     try {
-      // Group results by date and time slot
       const resultsByDate = rows.reduce((acc: any, row) => {
         row.tickets.forEach((ticket) => {
-          // Validate result is a 3-digit string
           if (ticket.result && /^[0-9]{3}$/.test(ticket.result)) {
-            // Group by date
             if (!acc[selectedDate]) {
-              acc[selectedDate] = []; // Create an array for the date if it doesn't exist
+              acc[selectedDate] = [];
             }
 
-            // Check if the selected time already exists for the given date
-            let timeSlotExists = acc[selectedDate].some((entry: { [x: string]: any; }) => entry[selectedTime]);
+            let timeSlotExists = acc[selectedDate].some((entry: { [x: string]: any }) => entry[selectedTime]);
 
-            // If time slot doesn't exist for this date, create a new one
             if (!timeSlotExists) {
               acc[selectedDate].push({ [selectedTime]: [] });
             }
 
-            // Find the existing entry for the selected time slot
-            const timeSlotEntry = acc[selectedDate].find((entry: { [x: string]: any; }) => entry[selectedTime]);
+            const timeSlotEntry = acc[selectedDate].find((entry: { [x: string]: any }) => entry[selectedTime]);
 
-            // Add the ticket result to the appropriate time slot and date
             timeSlotEntry[selectedTime].push({
               ticket: ticket.ticket,
-              result: ticket.result
+              result: ticket.result,
             });
           }
         });
         return acc;
       }, {});
 
-      // Log the results being sent to the server for debugging
       console.log('Sending data:', resultsByDate);
 
-      // Send data to the server wrapped in a "results" key
+      // Send data to server
       const response = await fetch('https://manu-netflix.onrender.com/addResult', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ results: resultsByDate }), // Send as an object with dates as keys
+        body: JSON.stringify({ results: resultsByDate }),
       });
 
       if (response.ok) {
         const responseData = await response.json();
         console.log('Data saved successfully:', responseData);
         alert('Data saved successfully!');
-        setRows([...generateTopRows(), ...generateMainRows()]); // Reset rows after saving
+
+        // Set the saved results in the parent component state
+        setSavedResults(resultsByDate);
+
+        // Reset the rows after saving
+        setRows([...generateTopRows(), ...generateMainRows()]);
       } else {
         const errorData = await response.json();
         console.error('Error from server:', errorData.message);
@@ -146,7 +142,7 @@ const TicketTable: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {/* Render top 5 rows with 1 column each */}
+          {/* Top rows (first 5 rows with 1 ticket each) */}
           {rows.slice(0, 5).map((row, rowIndex) => (
             <tr key={rowIndex} className={getRowClassName(row.tickets[0].ticket)}>
               <td>{row.tickets[0].ticket}</td>
@@ -154,16 +150,14 @@ const TicketTable: React.FC = () => {
                 <input
                   className="result-input"
                   type="text"
-                  maxLength={3}
                   value={row.tickets[0].result}
                   onChange={(e) => handleInputChange(rowIndex, 0, e.target.value)}
-                  placeholder="ABC"
                 />
               </td>
             </tr>
           ))}
 
-          {/* Render the remaining rows (10 rows with 3 columns) */}
+          {/* Main rows (next 10 rows with 3 tickets each) */}
           {rows.slice(5).map((row, rowIndex) => (
             <tr key={rowIndex}>
               {row.tickets.map((ticket, colIndex) => (
@@ -174,7 +168,6 @@ const TicketTable: React.FC = () => {
                     maxLength={3}
                     value={ticket.result}
                     onChange={(e) => handleInputChange(rowIndex + 5, colIndex, e.target.value)}
-                    placeholder="ABC"
                   />
                 </td>
               ))}
@@ -183,13 +176,11 @@ const TicketTable: React.FC = () => {
         </tbody>
       </table>
 
-      {/* Date and Time Selection */}
       <div className="date-time-selector">
         <input
           type="date"
           value={selectedDate}
           onChange={(e) => setSelectedDate(e.target.value)}
-          placeholder="Select Date"
         />
         <select value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)}>
           <option value="1pm">1 PM</option>
@@ -199,16 +190,14 @@ const TicketTable: React.FC = () => {
         </select>
       </div>
 
-      {/* Save Button */}
       <div className="save-container">
-        <button
-          onClick={handleSave}
-          disabled={isSaveButtonDisabled()} // Disable button if there are empty or invalid inputs
-          className="save-button"
-        >
+        <button onClick={handleSave} disabled={isSaveButtonDisabled()} className="save-button">
           Save
         </button>
       </div>
+
+      {/* Render the Result component */}
+      <Result savedResults={savedResults} />
     </div>
   );
 };

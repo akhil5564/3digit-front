@@ -82,9 +82,7 @@ const SalesReport: FC<salesReportProps> = ({}) => {
         <label className="form-label">Select User</label>
         <select className="form-input" value={selectedUser} onChange={handleUserChange}>
           <option value="">All</option>
-          <option value="user1">User 1</option>
-          <option value="user2">User 2</option>
-          <option value="user3">User 3</option>
+         
         </select>
       </div>
 
@@ -103,7 +101,7 @@ const SalesReport: FC<salesReportProps> = ({}) => {
       {/* Submit button to go to Reporter page with selected time as a query parameter */}
       <button className="submit-button">
         <Link
-          to={`/swinner?time=${selectedTime}&fromDate=${fromDate}&toDate=${toDate}&user=${selectedUser}&number=${number}`}
+          to={`/sreporter?time=${selectedTime}&fromDate=${fromDate}&toDate=${toDate}&user=${selectedUser}&number=${number}`}
         >
           <IconZoomCode stroke={2} />
         </Link>

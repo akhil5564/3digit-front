@@ -20,6 +20,10 @@
 
   }
 
+  button{
+    background-color: transparent;
+  }
+
   .table-containers {
     max-height: 740px; /* Adjust height to your preference */
     overflow-y: auto;  /* Enables vertical scrolling */
@@ -46,7 +50,7 @@
     padding: 12px 15px;
     text-align: left;
     border-bottom: 1px solid #060606;
-    background-color: rgba(255, 0, 0, 0.692);
+    background-color: rgba(13, 1, 1, 0.761);
     font-size: 1rem;
     color:white;
     border-spacing: 0 2px;        /* This will add a 10px gap between cells */

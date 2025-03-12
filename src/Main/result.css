@@ -1,66 +1,219 @@
-/* Center the entire content */
-.result-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start; /* Start from the top */
-  align-items: center;
-  text-align: center; /* Centers the text within the container */
-  background-color: rgb(36, 222, 23);
-  color: rgb(23, 19, 19);
-  font-weight: 600;
-  font-size: larger;
-  overflow: auto; /* Enable both horizontal and vertical scroll */
-  height: 100vh; /* Make the container take the full height of the viewport */
-  padding: 20px;
-}
+/* result.css */
 
-.header {
-  margin-bottom: 20px; /* Adds space between the header and the results */
-}
-
-.result-grid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%; /* Optional: you can adjust the width as needed */
-  padding: 5px;
-}
-
-.result-grid-3-columns {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Creates 3 equal-width columns */
-  gap: 16px; /* Adds space between the grid items */
-  width: 100%; /* Optional: you can set the width to control the grid size */
-  background-color: rgba(57, 214, 46, 0.825);
+/* Container for the component */
+.results-container {
+  font-family: Arial, sans-serif;
+  margin: 20px;
   color: black;
   font-weight: 600;
+  
+  /* Make the container scrollable */
+  max-height: 800px; /* Adjust based on how much space you want */
+  overflow-y: auto;  /* Enable vertical scrolling if content overflows */
+  padding: 10px;     /* Optional padding for a little space inside */
+  text-align: center; /* Center text within the container */
+}
+
+/* Title Styles */
+.results-container h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+}
+
+.results-container h2,
+.results-container h3 {
+  margin: 10px 0;
+  font-weight: normal;
+}
+
+/* Group-2 table styling */
+.group-2 table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed; /* Make all columns equal width */
+}
+
+.group-2 th,
+.group-2 td {
+  padding: 10px;
+  text-align: center; /* Center the text in the table */
+  border: 1px solid #310a69;
+  word-wrap: break-word; /* Ensure long content doesn't overflow */
+}
+
+.group-2 th {
+  background-color: #6abd11;
+  font-weight: bold;
+}
+
+.group-2 tr:nth-child(even) {
+  background-color: #34b53f;
+}
+
+/* For responsive design, adjust column layout for smaller screens */
+@media (max-width: 768px) {
+  .group-2 table {
+    width: 100%;
+  }
+
+  .group-2 th,
+  .group-2 td {
+    padding: 8px;
+  }
+
+  /* Stack the table columns into a single column on small screens */
+  .group-2 td {
+    width: 100%;
+  }
+}
+
+/* Group-2 Styling with CSS Grid */
+.group-2 {
+  margin-top: 20px;
+  border-collapse: separate;
+  border-spacing: 10px;
+}
+
+/* Using CSS Grid to display equal columns for group-2 */
+.results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Creates 3 equal-width columns */
+  gap: 20px; /* Space between the grid items */
+  justify-items: center; /* Center items horizontally */
+  align-items: center; /* Center items vertically */
 }
 
 .result-item {
-  padding: 6px; /* Optional: Adds padding inside each item */
-  text-align: center; /* Ensures the content inside the result-item is centered */
-  gap: 10px;
+  background-color: #f4f4f4;
+  padding: 15px;
+  border-radius: 8px;
+  border: 1px solid #310a69;
+  width: 100%; /* Ensure the item takes up the full width of its grid column */
 }
 
-.single-column {
-  text-align: center; /* Centers the content for single column items */
-}
-.winning-numbers-table {
-  margin-top: 30px;
-  display: block; /* Ensure it is visible */
+.ticket {
+  font-weight: bold;
 }
 
-.winning-numbers-table table {
+.result {
+  color: #555;
+}
+
+/* Responsive Design for Group-2 */
+@media (max-width: 768px) {
+  .results-grid {
+    grid-template-columns: 1fr; /* Single column layout for smaller screens */
+  }
+}
+
+@media (max-width: 480px) {
+  .results-grid {
+    grid-template-columns: 1fr; /* Single column layout for mobile devices */
+  }
+
+  .result-item {
+    padding: 10px;
+  }
+}
+
+/* Table Styles */
+.results-table-container {
+  width: 100%;
+  max-height: 400px; /* Set a max-height for the table container */
+  overflow-y: auto; /* Allow vertical scrolling */
+  overflow-x: auto; /* Allow horizontal scrolling if needed */
+  margin-top: 20px;
+}
+
+.results-table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: auto; /* Ensure the table layout adjusts to the content */
+  border-spacing: 10px;
+  border-radius: 8px;
+
+}
+.results-grid{
+  gap: 20px;
 }
 
-.winning-numbers-table th, .winning-numbers-table td {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  text-align: center;
+.results-table th,
+.results-table td {
+  padding: 12px 15px;
+  text-align: center; /* Center the text in the table */
+  border: 1px solid #310a69;
+  border-radius: 6px;
 }
 
-.winning-numbers-table th {
-  background-color: #f4f4f4;
+.results-table th {
+  background-color: #6abd11;
+  font-weight: bold;
+}
+
+.results-table tr:nth-child(even) {
+  background-color: #34b53f;
+}
+
+/* Date and Time Header */
+.date-time-header {
+  margin-bottom: 20px;
+  color: #0c0b0b;
+}
+
+button{
+  color: black;
+  background-color: blueviolet;
+}
+
+.date-time-header h2,
+.date-time-header h3 {
+  margin: 5px 0;
+  font-size: 1.2rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .results-container {
+    margin: 10px;
+  }
+
+  .results-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .date-time-header h2,
+  .date-time-header h3 {
+    font-size: 1rem;
+  }
+
+  /* Adjusting the table layout for smaller screens */
+  .results-table th,
+  .results-table td {
+    padding: 10px 8px;
+  }
+
+  .results-table-container {
+    max-height: 300px; /* Reduce the max-height for smaller screens */
+  }
+}
+
+/* For very small screens, like mobile phones */
+@media (max-width: 480px) {
+  .results-container h1 {
+    font-size: 1.25rem;
+  }
+
+  .results-table-container {
+    max-height: 250px; /* Further reduce the max-height */
+  }
+
+  .results-table th,
+  .results-table td {
+    padding: 8px 6px;
+  }
+
+  /* Make the table more readable by adjusting font sizes */
+  .results-table {
+    font-size: 0.9rem;
+  }
 }
