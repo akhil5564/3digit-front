@@ -105,9 +105,6 @@ const ResultsComponent: React.FC = () => {
   }
 
   // Group results
-  const group1 = filteredResults
-    .filter((result) => ['1', '2', '3', '4', '5'].includes(result.ticket))
-    .slice(0, 5);
 
   const group2 = filteredResults
     .filter((result) => !['1', '2', '3', '4', '5'].includes(result.ticket))

@@ -150,7 +150,6 @@ const Reporter: FC = () => {
                       >
                         <IconTrash
                           stroke={2}
-                          disabled={shouldDisableDelete(data.selectedTime)} // Disable delete for the container if the time has passed
                           style={shouldDisableDelete(data.selectedTime) ? { cursor: 'not-allowed', opacity: 0.5 } : {}}
                         />
                       </button>
@@ -180,7 +179,6 @@ const Reporter: FC = () => {
                           className="icon-trash"
                           onClick={() => handleDeleteRow(row._id)} // Handle delete for row
                           stroke={2}
-                          disabled={shouldDisableDelete(selectedTime || '')} // Disable the delete icon for row if the time has passed
                           style={shouldDisableDelete(selectedTime || '') ? { cursor: 'not-allowed', opacity: 0.5 } : {}}
                         />
                       </td>

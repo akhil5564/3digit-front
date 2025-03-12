@@ -14,13 +14,9 @@ interface Row {
 const TicketTable: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<string>(''); // Selected date
   const [selectedTime, setSelectedTime] = useState<string>('1pm'); // Selected time slot
-  const [savedResults, setSavedResults] = useState<Record<string, any>>({}); // Results saved for specific date and time
   const [rows, setRows] = useState<Row[]>([]); // Rows for the table
 
   // Generate random 3-digit result for tickets (if needed later for saving)
-  const generateRandomNumber = () => {
-    return Math.floor(100 + Math.random() * 900).toString();
-  };
 
   // Generate rows for the top tickets (5 rows with 1 ticket each)
   const generateTopRows = (): Row[] => {
@@ -116,8 +112,6 @@ const TicketTable: React.FC = () => {
         console.log('Data saved successfully:', responseData);
         alert('Data saved successfully!');
 
-        // Set the saved results in the parent component state
-        setSavedResults(resultsByDate);
 
         // Reset the rows after saving
         setRows([...generateTopRows(), ...generateMainRows()]);
@@ -197,7 +191,7 @@ const TicketTable: React.FC = () => {
       </div>
 
       {/* Render the Result component */}
-      <Result savedResults={savedResults} />
+      <Result />
     </div>
   );
 };
