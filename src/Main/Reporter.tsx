@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import './reporter.css';  // CSS for styling
-import { IconTrash, IconCopy } from '@tabler/icons-react';  // Trash and Copy icons
+import { IconTrash} from '@tabler/icons-react';  // Trash and Copy icons
 import axios from 'axios';  // Axios for making API calls
 import { useLocation } from 'react-router-dom';  // To access query parameters in the URL
 
@@ -162,7 +162,6 @@ const Reporter: FC = () => {
 >
   <IconTrash
     stroke={2}
-    disabled={shouldDisableDelete(data.selectedTime)} // Disable delete if time has passed
     style={shouldDisableDelete(data.selectedTime) ? { cursor: 'not-allowed', opacity: 0.5 } : {}}
   />
 </button>
@@ -183,7 +182,6 @@ const Reporter: FC = () => {
                           className="icon-trash"
                           onClick={() => handleDeleteRow(row._id)} // Handle delete for row
                           stroke={2}
-                          disabled={shouldDisableDelete(selectedTime || '')} // Disable the delete icon for row if the time has passed
                           style={shouldDisableDelete(selectedTime || '') ? { cursor: 'not-allowed', opacity: 0.5 } : {}}
                         />
                       </td>
