@@ -20,6 +20,7 @@ import Snavbar from './Sub/Snavbar';
 import Sreporter from './Sub/Sreporter';
 import Ssales from './Sub/Ssales';
 import Swinnwe from './Sub/Swinnwe';
+import Spnl from './Sub/Spnl';
 
 // Create the router with createBrowserRouter
 const router = createBrowserRouter([
@@ -65,6 +66,10 @@ const router = createBrowserRouter([
   {
     path: "/more",
     element: <More />, // More Route
+  },
+  {
+    path: "/spnl",
+    element: <Spnl totalOfTotals={0} winningAmount={0} />, // More Route
   },
   {
     path: "/swinner",

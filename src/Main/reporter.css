@@ -49,7 +49,7 @@
   }
 
   .table-containers {
-    max-height: 740px; /* Adjust height to your preference */
+    max-height: 700px; /* Adjust height to your preference */
     overflow-y: auto;  /* Enables vertical scrolling */
     margin-bottom: 20px;
   }

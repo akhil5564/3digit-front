@@ -80,30 +80,6 @@ const ResultsComponent: React.FC = () => {
   };
 
   // Prize calculation based on ticket number
-  const getPrize = (ticket: string, count: number, letter: string) => {
-    // Check if the type is 'Box' or 'Super' and calculate based on count
-    if (letter === 'BOX') {
-      return 3000 * count;  // If type is 'Box', return count * 3000
-    } else if (letter === 'Super') {
-      return 5000 * count;  // If type is 'Super', return count * 5000
-    }
-  
-    // For other ticket numbers
-    switch (ticket) {
-      case '1':
-        return 5000;
-      case '2':
-        return 500;
-      case '3':
-        return 250;
-      case '4':
-        return 100;
-      case '5':
-        return 50;
-      default:
-        return 20; // For all other ticket numbers
-    }
-  };
 
   // Show loading state
   if (loading) {
@@ -170,30 +146,10 @@ const ResultsComponent: React.FC = () => {
           <h3>Winning Results</h3>
           <table className="results-table">
             <thead>
-              <tr>
-                <th>Ticket</th>
-                <th>Count</th>
-                <th>Prize</th> {/* New column for prize */}
-              </tr>
+               
             </thead>
             <tbody>
-              {winningResults.map((result, index) => {
-                const matchedData = getMatchedData(result.result);
-                return (
-                  <tr key={index}>
-                    <td>{result.ticket}.{result.result}</td>
-                    {matchedData.length > 0 ? (
-                      <>
-                        <td>{matchedData[0].count}</td>
-                        {/* Calculate prize: matchedData[0].count * getPrize(result.ticket) */}
-                        <td>{parseInt(matchedData[0].count, 10) * getPrize(result.ticket, parseInt(matchedData[0].count, 10), matchedData[0].letter)}</td>
-                      </>
-                    ) : (
-                      <td colSpan={2}>No Winning</td>
-                    )}
-                  </tr>
-                );
-              })}
+             
             </tbody>
           </table>
         </div>

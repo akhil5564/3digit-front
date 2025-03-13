@@ -50,6 +50,7 @@ const SalesReport: FC<salesReportProps> = ({}) => {
         {/* Time Dropdown */}
         <label className="form-label">Select Time</label>
         <select className="form-input" value={selectedTime} onChange={handleTimeChange}>
+          <option value="">Select a time</option>
           <option value="1PM">1PM</option>
           <option value="3PM">3PM</option>
           <option value="6PM">6PM</option>
@@ -82,7 +83,7 @@ const SalesReport: FC<salesReportProps> = ({}) => {
         <label className="form-label">Select User</label>
         <select className="form-input" value={selectedUser} onChange={handleUserChange}>
           <option value="">All</option>
-         
+          {/* Add other user options here */}
         </select>
       </div>
 
