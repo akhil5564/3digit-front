@@ -12,7 +12,7 @@ const Home: FC = () => {
   const [countValue, setCountValue] = useState<string>(''); // Track count value for all digits
   const [tableRows, setTableRows] = useState<{ letter: string; num: string; count: string; amount: string }[]>([]); // Track letter, num, count, and amount
   const [setChecked, setSetChecked] = useState<boolean>(false); // Track the "Set" checkbox state
-  const [isSaving, setIsSaving] = useState<boolean>(false); // Track if saving is in progress
+  const [isSaving] = useState<boolean>(false); // Track if saving is in progress
 
 
   const inputRef1 = useRef<HTMLInputElement | null>(null);
@@ -292,7 +292,7 @@ const Home: FC = () => {
       }
     } catch (error) {
       console.error('Error saving data:', error);
-      alert('Error saving data: ' + error.message);  // Optional user-friendly error alert
+      alert('Error saving data: ' );  // Optional user-friendly error alert
     }
   };
   
