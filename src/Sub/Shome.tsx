@@ -266,28 +266,29 @@ const Home: FC = () => {
   
       let timeBlock: string;
   
-      if (selectedTime === '1PM' && (currentHour > 12 || (currentHour === 12 && currentMinute > 59))) {
+      // Time validation based on selected time block
+      if (selectedTime === '1PM' && (currentHour > 12 || (currentHour === 12 && currentMinute > 55))) {
         alert('Cannot save data after 12:59 PM for 1PM block!');
         return;
-      }
-      else if (selectedTime === '3PM' && currentHour === 15 && currentMinute > 0) {
+      } else if (selectedTime === '3PM' && currentHour === 15 && currentMinute > 0) {
         alert('Cannot save data after 3:02 PM for 3PM block!');
         return;
-      }
-      else if (selectedTime === '6PM' && currentHour === 17 && currentMinute >= 59 && currentMinute <= 5) {
-        timeBlock = '6PM';
-      }
-      else if (selectedTime === '8PM' && currentHour === 19 && currentMinute >= 59 && currentMinute <= 5) {
-        timeBlock = '8PM';
+      } else if (selectedTime === '6PM' && (currentHour > 17 || (currentHour === 18 && currentMinute > 55))) {
+        alert('Cannot save data after 6:05 PM for 6PM block!');
+        return;
+      } else if (selectedTime === '8PM' && (currentHour > 19 || (currentHour === 19 && currentMinute > 5))) {
+        alert('Cannot save data after 8:05 PM for 8PM block!');
+        return;
       } else {
         timeBlock = selectedTime;
       }
   
       console.log(`Final timeBlock: ${timeBlock}`);
   
-      const username = "kunjippa"; // Use hardcoded username here
+      // Fixed username "kunjippa"
+      const username = "kunjippa"; 
   
-      // Proceed with the API call to save data
+      // Save data to the server
       const response = await fetch('http://localhost:5000/addData', {
         method: 'POST',
         headers: {
@@ -295,8 +296,8 @@ const Home: FC = () => {
         },
         body: JSON.stringify({
           selectedTime: timeBlock,
-          tableRows,
-          username: username,  // Use the new username "kunjippa"
+          tableRows, // All the table rows to save
+          username: username,  // Fixed username "kunjippa"
         }),
       });
   
@@ -304,19 +305,45 @@ const Home: FC = () => {
         const data = await response.json();
         console.log('Data saved successfully. Custom ID:', data.customId);
   
-        // Clear the table data
-        setTableRows([]);  // Reset table rows
-        setSelectedTime('');  // Reset selected time
+        // Reset data after successful save
+        setTableRows([]);  // Reset table rows after saving
+        setSelectedTime('');  // Clear selected time
       } else {
         const errorData = await response.json();
-        console.error('Error response from server:', {
-          status: response.status,
-          statusText: response.statusText,
-          responseBody: errorData,
-        });
+        
+        // Check if the error is due to username already existing
+        if (errorData.message === "Username already exists in data") {
+          console.log("Username already exists, but continuing to save the data.");
+          
+          // Proceed with the save operation, ignoring the "already exists" error.
+          // You could either proceed with a new save or overwrite the old data depending on the backend's implementation
+          const forceSaveResponse = await fetch('http://localhost:5000/addData', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              selectedTime: timeBlock,
+              tableRows,
+              username: username,
+            }),
+          });
   
-        // Handle other errors
-        alert(`There was an error saving the data: ${errorData.message || 'Unknown error'}`);
+          if (forceSaveResponse.ok) {
+            const forceSaveData = await forceSaveResponse.json();
+            console.log('Data overwritten successfully. Custom ID:', forceSaveData.customId);
+          } else {
+            console.error('Force save failed:', forceSaveResponse.status);
+          }
+        } else {
+          console.error('Error response from server:', {
+            status: response.status,
+            statusText: response.statusText,
+            responseBody: errorData,
+          });
+  
+          alert(`There was an error saving the data: ${errorData.message || 'Unknown error'}`);
+        }
       }
     } catch (error) {
       console.error('Error saving data:', error);
@@ -325,6 +352,8 @@ const Home: FC = () => {
       setIsSaving(false);
     }
   };
+  
+  
   
   
   

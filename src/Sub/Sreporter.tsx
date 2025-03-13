@@ -1,6 +1,6 @@
 import { FC, useState, useEffect } from 'react';
 import '../Main/reporter.css';  // CSS for styling
-import { IconTrash,  } from '@tabler/icons-react';  // Trash and Copy icons
+import { IconTrash } from '@tabler/icons-react';  // Trash icon
 import axios from 'axios';  // Axios for making API calls
 import { useLocation } from 'react-router-dom';  // To access query parameters in the URL
 
@@ -125,6 +125,47 @@ const Reporter: FC = () => {
     setFilteredData(updatedData);
   };
 
+  // Function to calculate the total based on count and num length
+  const calculateTotal = (count: string, num: string): string => {
+    const countNum = parseInt(count, 10);
+    const numLength = num.length;
+
+    let total = 0;
+
+    if (numLength === 1) {
+      total = countNum * 11;  // 1-digit num: count * 11
+    } else if (numLength > 1) {
+      total = countNum * 8.5;  // More than 1-digit num: count * 8.5
+    }
+
+    return total.toFixed(2);  // Return total with 2 decimal places
+  };
+
+  // Calculate the total count, total amount, and total of totals for all rows in all containers
+  const calculateFooterTotals = () => {
+    let totalCount = 0;
+    let totalAmount = 0;
+    let totalOfTotals = 0;
+
+    // Loop through all filtered data to calculate the total values
+    filteredData.forEach((data) => {
+      data.tableRows.forEach((row) => {
+        totalCount += parseInt(row.count, 10); // Sum of count
+        totalAmount += parseFloat(row.amount); // Sum of amount
+        totalOfTotals += parseFloat(calculateTotal(row.count, row.num)); // Sum of totals
+      });
+    });
+
+    return {
+      totalCount,
+      totalAmount,
+      totalOfTotals,
+    };
+  };
+
+  // Get totals for the common footer
+  const { totalCount, totalAmount, totalOfTotals } = calculateFooterTotals();
+
   return (
     <div className="table-containers">
       {filteredData.length === 0 ? (
@@ -140,7 +181,7 @@ const Reporter: FC = () => {
               <table className="reporter-table">
                 <thead>
                   <tr>
-                    <th colSpan={7} className="bill-infos">
+                    <th colSpan={8} className="bill-infos">
                       Bill No: {data.customId}
                       {new Date(data.createdAt).toLocaleString()}
 
@@ -155,15 +196,7 @@ const Reporter: FC = () => {
                       </button>
                     </th>
                   </tr>
-                  <tr>
-                    <th>#</th> {/* New column for sequential ID */}
-                    <th>Num</th>
-                    <th>Letter</th>
-                    <th>Count</th>
-                    <th>Amount</th>
-                    <th>Time</th>
-                    <th>Action</th>
-                  </tr>
+                 
                 </thead>
                 <tbody>
                   {data.tableRows.map((row, index) => (
@@ -173,7 +206,7 @@ const Reporter: FC = () => {
                       <td>{row.letter}</td>
                       <td>{row.count}</td>
                       <td>{row.amount}</td>
-                      <td>{row.time}</td>
+                      <td>{calculateTotal(row.count, row.num)}</td> {/* Total column */}
                       <td>
                         <IconTrash
                           className="icon-trash"
@@ -188,6 +221,16 @@ const Reporter: FC = () => {
               </table>
             </div>
           ))}
+
+          {/* Common Footer at the bottom */}
+          <div className="footer">
+            <div className="footer-content">
+              <strong> Count: {totalCount}</strong> 
+              <strong>Amount: {totalAmount.toFixed(2)}</strong> 
+              <strong>Total: {totalOfTotals.toFixed(2)}</strong> 
+            </div>
+          </div>
+
         </>
       )}
     </div>

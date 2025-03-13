@@ -21,6 +21,7 @@ interface Data {
   selectedTime: string;
   tableRows: TableRow[];
 }
+
 const ResultsComponent: React.FC = () => {
   const [results, setResults] = useState<Result[]>([]); // Store fetched results
   const [data, setData] = useState<Data[]>([]); // Store fetched table data
@@ -78,7 +79,6 @@ const ResultsComponent: React.FC = () => {
 
   // Prize calculation based on ticket number
   const getPrize = (ticket: string, _count: number, _letter: string) => {
-    // Adjust your logic based on the ticket, count, and letter
     switch (ticket) {
       case '1':
         return 5000;
@@ -94,7 +94,26 @@ const ResultsComponent: React.FC = () => {
         return 20; // For all other ticket numbers
     }
   };
-  
+
+  // Commission calculation
+  const getCommission = (ticket: string, count: number) => {
+    if (ticket === '1') {
+      return 400 * count; // First prize commission is 400 * count
+    }
+    if (ticket === '2') {
+        return 50 * count; // First prize commission is 400 * count
+      }
+      if (ticket === '3') {
+        return 20 * count; // First prize commission is 400 * count
+      }
+      if (ticket === '4') {
+        return 20 * count; // First prize commission is 400 * count
+      }
+      if (ticket === '5') {
+        return 20 * count; // First prize commission is 400 * count
+      }
+    return 10 * 20; // No commission for other tickets
+  };
 
   // Show loading state
   if (loading) {
@@ -107,12 +126,10 @@ const ResultsComponent: React.FC = () => {
   }
 
   // Group results
-
   const group2 = filteredResults
     .filter((result) => !['1', '2', '3', '4', '5'].includes(result.ticket))
     .slice(0, 30);
 
-  // If there are fewer than 30 results in group2, add more from the remaining results
   if (group2.length < 30) {
     const remainingResults = filteredResults
       .filter((result) => !group2.find((r) => r.ticket === result.ticket))
@@ -120,7 +137,6 @@ const ResultsComponent: React.FC = () => {
     group2.push(...remainingResults);
   }
 
-  // Filter winning results: These are results that have a match
   const winningResults = filteredResults.filter((result) => getMatchedData(result.result).length > 0);
 
   return (
@@ -154,47 +170,46 @@ const ResultsComponent: React.FC = () => {
 
       {/* Winning Results Table */}
       {winningResults.length > 0 && (
-  <div className="winning-results">
-    <h3>Winning Results</h3>
-    <table className="results-table">
-      <thead>
-        <tr>
-          <th>Ticket</th>
-          <th>Count</th>
-          <th>Prize</th> {/* New column for prize */}
-        </tr>
-      </thead>
-      <tbody>
-        {winningResults.map((result, index) => {
-          const matchedData = getMatchedData(result.result);
-          return (
-            <tr key={index}>
-              <td>{result.ticket}.{result.result}</td>
-              {matchedData.length > 0 ? (
-                <>
-                  <td>{matchedData[0].count}</td>
-                  {/* Calculate prize: matchedData[0].count * getPrize(result.ticket) */}
-                  <td>{parseInt(matchedData[0].count, 10) * getPrize(result.ticket, parseInt(matchedData[0].count, 10), matchedData[0].letter)}</td>
-                  </>
-              ) : (
-                <td colSpan={2}>No Winning</td>
-              )}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
-  </div>
-)}
-
+        <div className="winning-results">
+          <h3>Winning Results</h3>
+          <table className="results-table">
+            <thead>
+              <tr>
+                <th>Ticket</th>
+                <th>Count</th>
+                <th>Prize</th> {/* New column for prize */}
+                <th>Commission</th> {/* New column for commission */}
+              </tr>
+            </thead>
+            <tbody>
+              {winningResults.map((result, index) => {
+                const matchedData = getMatchedData(result.result);
+                return (
+                  <tr key={index}>
+                    <td>{result.ticket}.{result.result}</td>
+                    {matchedData.length > 0 ? (
+                      <>
+                        <td>{matchedData[0].count}</td>
+                        <td>{parseInt(matchedData[0].count, 10) * getPrize(result.ticket, parseInt(matchedData[0].count, 10), matchedData[0].letter)}</td>
+                        <td>{getCommission(result.ticket, parseInt(matchedData[0].count, 10))}</td>
+                      </>
+                    ) : (
+                      <td colSpan={3}>No Winning</td>
+                    )}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      )}
 
       {/* Group 2: Remaining Results */}
-    
+      <div className="remaining-results">
+        {/* Render Group 2 Results Here */}
+      </div>
     </div>
   );
 };
 
 export default ResultsComponent;
-
-
-
