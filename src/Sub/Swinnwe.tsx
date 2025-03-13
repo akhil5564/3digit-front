@@ -112,7 +112,7 @@ const ResultsComponent: React.FC = () => {
       if (ticket === '5') {
         return 20 * count; // First prize commission is 400 * count
       }
-    return 10 * 20; // No commission for other tickets
+    return 10 * 10; // No commission for other tickets
   };
 
   // Show loading state
