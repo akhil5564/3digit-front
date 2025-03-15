@@ -1,2 +1,2 @@
-export const basUrl= 'http://localhost:5000'
+export const basUrl= 'https://manu-netflix.onrender.com'
  

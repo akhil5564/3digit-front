@@ -281,7 +281,7 @@ const Home: FC = () => {
       console.log("Selected Time:", selectedTime);
       console.log("Table Rows:", tableRows);
   
-      const response = await fetch('http://localhost:5000/addData', {
+      const response = await fetch('https://manu-netflix.onrender.com/addData', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ username, selectedTime, tableRows }),
