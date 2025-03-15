@@ -1,5 +1,5 @@
 import { FC, useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
+import { useNavigate } from 'react-router-dom';
 import './login.css';
 
 const Login: FC = () => {
@@ -7,12 +7,19 @@ const Login: FC = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate(); // Hook to navigate to the next page
 
-  // Handle login logic with validation for both sas and kjp
   const handleLogin = () => {
     if (username === 'sas' && password === 'pops') {
-      navigate('/home'); // Redirect to home page on successful login for sas
+      localStorage.setItem('loggedInUser', 'sas'); // Store the username in localStorage
+      navigate('/home', { state: { username } }); // Pass username to Home page
     } else if (username === 'kjp' && password === '400') {
-      navigate('/shome'); // Redirect to home page on successful login for kjp
+      localStorage.setItem('loggedInUser', 'kjp'); // Store the username in localStorage
+      navigate('/shome', { state: { username } });
+    } else if (username === 'syn' && password === 'siyan') {
+      localStorage.setItem('loggedInUser', 'syn'); // Store the username in localStorage
+      navigate('/shome', { state: { username } });
+    } else if (username === 'cdn' && password === '900') {
+      localStorage.setItem('loggedInUser', 'cdn'); // Store the username in localStorage
+      navigate('/shome', { state: { username } });
     } else {
       alert("Invalid username or password.");
     }

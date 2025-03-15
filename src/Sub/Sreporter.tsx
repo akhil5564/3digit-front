@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';  // To access query parameters i
 
 // Define the structure of the data
 interface TableData {
+  username: string;
   type: string;
   tableRows: {
     id: string;
@@ -28,6 +29,7 @@ const Reporter: FC = () => {
   const [error, setError] = useState<string>('');
   const [filteredData, setFilteredData] = useState<TableData[]>([]);
   const [errorMessage, setErrorMessage] = useState<string>(''); // To store the error message when trying to delete after cutoff time
+  const [user, setUser] = useState<string>(''); // Store the logged-in user (e.g., 'kjp')
 
   // Access URL query parameters
   const location = useLocation();
@@ -79,21 +81,30 @@ const Reporter: FC = () => {
   }, []);
 
   // Filter data based on the selected time, fromDate, and toDate
-  useEffect(() => {
-    const filtered = tableData.filter((data) => {
-      // Filter by selected time (from query params) for the entire report
-      const timeMatches = selectedTime === 'All' || data.selectedTime === selectedTime;
+// Filter data based on the selected time, fromDate, toDate, and user
+useEffect(() => {
+  const loggedInUser = localStorage.getItem('loggedInUser'); // Get logged-in user from localStorage
+  if (!loggedInUser) return; // If no user is logged in, do nothing
 
-      // Filter by date range (if present)
-      const date = new Date(data.createdAt).toISOString().split('T')[0]; // Format to YYYY-MM-DD
-      const withinDateRange = (!fromDate || date >= fromDate) && (!toDate || date <= toDate);
+  setUser(loggedInUser); // Store logged-in user in state
 
-      // Combine both time and date range filters
-      return timeMatches && withinDateRange;
-    });
+  const filtered = tableData.filter((data) => {
+    // Filter by selected time (from query params) for the entire report
+    const timeMatches = selectedTime === 'All' || data.selectedTime === selectedTime;
 
-    setFilteredData(filtered);
-  }, [selectedTime, fromDate, toDate, tableData]);
+    // Filter by date range (if present)
+    const date = new Date(data.createdAt).toISOString().split('T')[0]; // Format to YYYY-MM-DD
+    const withinDateRange = (!fromDate || date >= fromDate) && (!toDate || date <= toDate);
+
+    // Filter by logged-in user dynamically (username in DB == logged-in user)
+    const userMatches = data.username === loggedInUser;
+
+    // Combine all the filters: time, date range, and user
+    return timeMatches && withinDateRange && userMatches;
+  });
+
+  setFilteredData(filtered);
+}, [selectedTime, fromDate, toDate, tableData]);
 
   // Loading and error states
   if (loading) return <p>Loading...</p>;
@@ -152,7 +163,9 @@ const Reporter: FC = () => {
       data.tableRows.forEach((row) => {
         totalCount += parseInt(row.count, 10); // Sum of count
         totalAmount += parseFloat(row.amount); // Sum of amount
-        totalOfTotals += parseFloat(calculateTotal(row.count, row.num)); // Sum of totals
+        if (user === 'kjp') {
+          totalOfTotals += parseFloat(calculateTotal(row.count, row.num)); // Sum of totals for kjp only
+        }
       });
     });
 
@@ -196,28 +209,28 @@ const Reporter: FC = () => {
                       </button>
                     </th>
                   </tr>
-                 
                 </thead>
                 <tbody>
-                  {data.tableRows.map((row, index) => (
-                    <tr key={row._id}>
-                      <td>{index + 1}</td> {/* Sequential ID */}
-                      <td>{row.num}</td>
-                      <td>{row.letter}</td>
-                      <td>{row.count}</td>
-                      <td>{row.amount}</td>
-                      <td>{calculateTotal(row.count, row.num)}</td> {/* Total column */}
-                      <td>
-                        <IconTrash
-                          className="icon-trash"
-                          onClick={() => handleDeleteRow(row._id)} // Handle delete for row
-                          stroke={2}
-                          style={shouldDisableDelete(selectedTime || '') ? { cursor: 'not-allowed', opacity: 0.5 } : {}}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
+  {data.tableRows.map((row, index) => (
+    <tr key={row._id}>
+      <td>{index + 1}</td> {/* Sequential ID */}
+      <td>{row.num}</td>
+      <td>{row.letter}</td>
+      <td>{row.count}</td>
+      <td>{row.amount}</td>
+      <td>{user === 'kjp' ? calculateTotal(row.count, row.num) : ''}</td> {/* Show total only for kjp */}
+      <td>
+        <IconTrash
+          className="icon-trash"
+          onClick={() => handleDeleteRow(row._id)} // Handle delete for row
+          stroke={2}
+          style={shouldDisableDelete(selectedTime || '') ? { cursor: 'not-allowed', opacity: 0.5 } : {}}
+        />
+      </td>
+    </tr>
+  ))}
+</tbody>
+
               </table>
             </div>
           ))}
@@ -225,12 +238,11 @@ const Reporter: FC = () => {
           {/* Common Footer at the bottom */}
           <div className="footer">
             <div className="footer-content">
-              <strong> Count: {totalCount}</strong> 
-              <strong>Amount: {totalAmount.toFixed(2)}</strong> 
-              <strong>Total: {totalOfTotals.toFixed(2)}</strong> 
+              <strong> Count: {totalCount}</strong>
+              <strong>Amount: {totalAmount.toFixed(2)}</strong>
+              {user === 'kjp' && <strong>Total Commission: {totalOfTotals.toFixed(2)}</strong>} {/* Show commission only for kjp */}
             </div>
           </div>
-
         </>
       )}
     </div>

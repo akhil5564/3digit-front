@@ -69,7 +69,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/spnl",
-    element: <Spnl totalOfTotals={0} winningAmount={0} />, // More Route
+    element: <Spnl     />, // More Route
   },
   {
     path: "/swinner",

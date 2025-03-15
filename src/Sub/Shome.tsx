@@ -114,7 +114,11 @@ const Home: FC = () => {
     // Clear the inputs after adding to the table
     setNumValue('');
     setCountValue('');
+  
+    // Focus back on the 'Num' input after the button click
+    if (inputRef1.current) inputRef1.current.focus(); // Set focus on 'numValue' input
   };
+  
   const handleDigit2ButtonClick = (value: string) => {
     if (value === 'All') {
       // Add AB, BC, and AC to the table
@@ -137,54 +141,56 @@ const Home: FC = () => {
     // Clear the inputs after adding to the table
     setNumValue2('');
     setCountValue('');
+  
+    // Focus back on the 'Num' input after the button click
+    if (inputRef2.current) inputRef2.current.focus(); // Set focus on 'numValue2' input
   };
+  
   const handleDigit3ButtonClick = (value: string) => {
     const count = parseInt(countValue, 10) || 0;
     const amount = count * 10;
   
-    const startNum = parseInt(numValue3, 10);
-    const endNum = parseInt(numValue, 10);
+    if (value === 'All') {
+      setTableRows((prevRows) => [
+        ...prevRows,
+        { letter: 'SUPER', num: numValue3, count: countValue, amount: amount.toString() },
+        { letter: 'BOX', num: numValue3, count: countValue, amount: amount.toString() },
+      ]);
   
-    if (startNum && endNum && startNum <= endNum) {
-      for (let i = startNum; i <= endNum; i++) {
-        setTableRows((prevRows) => [
-          ...prevRows,
-          { letter: value, num: i.toString(), count: countValue, amount: amount.toString() },
-        ]);
+      // If "Set" is checked, generate all permutations
+      if (setChecked) {
+        const permutations = generatePermutations(numValue3);
+        permutations.forEach((perm) => {
+          setTableRows((prevRows) => [
+            ...prevRows,
+            { letter: 'set', num: perm, count: countValue, amount: amount.toString() },
+          ]);
+        });
       }
     } else {
       setTableRows((prevRows) => [
         ...prevRows,
         { letter: value, num: numValue3, count: countValue, amount: amount.toString() },
       ]);
+  
+      // Handle permutations if "Set" is checked
+      if (setChecked) {
+        const permutations = generatePermutations(numValue3);
+        permutations.forEach((perm) => {
+          setTableRows((prevRows) => [
+            ...prevRows,
+            { letter: value, num: perm, count: countValue, amount: amount.toString() },
+          ]);
+        });
+      }
     }
   
-    if (setChecked) {  // Check if the 'Set' checkbox is checked
-      const permutations = generatePermutations(numValue3); // Generate permutations of the entered number
-      permutations.forEach(perm => {
-        setTableRows((prevRows) => [
-          ...prevRows,
-          { letter: value, num: perm, count: countValue, amount: amount.toString() }, // Add permutations to the table
-        ]);
-      });
-    }
+    // Clear input fields
+    setNumValue3('');
+    setCountValue('');
   
-    // Add data for "SUPER" and "BOX" if 'All' is selected
-    if (value === 'All') {
-      // Add SUPER data
-      setTableRows((prevRows) => [
-        ...prevRows,
-        { letter: 'SUPER', num: numValue3, count: countValue, amount: amount.toString() },
-      ]);
-      // Add BOX data
-      setTableRows((prevRows) => [
-        ...prevRows,
-        { letter: 'BOX', num: numValue3, count: countValue, amount: amount.toString() },
-      ]);
-    }
-  
-    setNumValue3(''); // Reset input after processing
-    setCountValue(''); // Reset count value after processing
+    // Refocus input field
+    if (inputRef3.current) inputRef3.current.focus();
   };
   
   
@@ -251,52 +257,55 @@ const Home: FC = () => {
       console.error('Failed to read clipboard data:', error);
     }
   };
+
+
+
+
   
   const saveData = async () => {
     try {
-      const currentTime = new Date();
-      const currentHour = currentTime.getHours();
-      const currentMinute = currentTime.getMinutes();
+      const username = localStorage.getItem('loggedInUser');
+      if (!username) {
+        alert("User not logged in!");
+        return;
+      }
   
-      console.log(`currentTime: ${currentTime}`);
-      console.log(`currentHour: ${currentHour}, currentMinute: ${currentMinute}`);
-      console.log(`selectedTime: ${selectedTime}`);
+      if (tableRows.length === 0) {
+        alert("No data to save!");
+        return;
+      }
   
-      // Set the username as 'kunjippa'
-      const username = 'kunjippa'; // Ensure this is the username you're passing
   
-      let timeBlock = selectedTime;
+      console.log("Saving Data...");
+      console.log("Username:", username);
+      console.log("Selected Time:", selectedTime);
+      console.log("Table Rows:", tableRows);
   
-      // Proceed with the API call
-      const response = await fetch('https://manu-netflix.onrender.com/addData', {
+      const response = await fetch('http://localhost:5000/addData', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          username: username, // Include the updated username here
-          selectedTime: timeBlock,
-          tableRows,
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, selectedTime, tableRows }),
       });
   
       if (response.ok) {
         const data = await response.json();
         console.log('Data saved successfully. Custom ID:', data.customId);
+        alert('Data saved successfully!');
   
-        // Clear the table data
-        setTableRows([]);  // Reset table rows
-        setSelectedTime('');  // Reset selected time
+        setTableRows([]); // Reset table rows after saving
       } else {
-        throw new Error('Error saving data');
+        const errorData = await response.json();
+        console.error('Error saving data:', errorData);
+        alert('Error saving data: ' + errorData.message);
       }
     } catch (error) {
       console.error('Error saving data:', error);
-      alert('Error saving data: ' );  // Optional user-friendly error alert
+      alert('Error saving data');
     }
   };
   
-
+  
+  
   
   
   

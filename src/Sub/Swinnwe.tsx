@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import '../Main/result.css'; // Import the CSS file
+import '../Main/result.css';
 
 interface Result {
   ticket: string;
@@ -17,29 +17,32 @@ interface TableRow {
 }
 
 interface Data {
+  username: string;  // Added this to match against logged-in user
   customId: number;
   selectedTime: string;
   tableRows: TableRow[];
 }
 
 const ResultsComponent: React.FC = () => {
-  const [results, setResults] = useState<Result[]>([]); // Store fetched results
-  const [data, setData] = useState<Data[]>([]); // Store fetched table data
-  const [loading, setLoading] = useState<boolean>(true); // Loading state
-  const [error, setError] = useState<string | null>(null); // Error state
+  const [results, setResults] = useState<Result[]>([]);
+  const [data, setData] = useState<Data[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [filteredResults, setFilteredResults] = useState<Result[]>([]);
 
+  const [loggedInUser, setLoggedInUser] = useState<string | null>(null);
+
   useEffect(() => {
+    const user = localStorage.getItem('loggedInUser');
+    setLoggedInUser(user);
+
     const fetchResults = async () => {
       try {
         const response = await axios.get('https://manu-netflix.onrender.com/getresult');
-        const sortedResults = response.data.sort((a: Result, b: Result) => {
-          return parseInt(a.ticket, 10) - parseInt(b.ticket, 10);
-        });
-        setResults(sortedResults);
+        setResults(response.data);
       } catch (err) {
         setError('Failed to fetch results');
       } finally {
@@ -69,94 +72,101 @@ const ResultsComponent: React.FC = () => {
     }
   };
 
-  // Get matching data from tableRows based on result (3-digit number)
-  const getMatchedData = (result: string) => {
-    const match = data.flatMap((item) =>
+  // **Filter data based on logged-in user**
+  const userData = data.filter((entry) => entry.username === loggedInUser);
+
+  // Get AB matches (First 2 digits)
+  const getABMatches = (result: string) => {
+    return userData.flatMap((item) =>
+      item.tableRows.filter((row) => row.letter === 'AB' && row.num === result.slice(0, 2))
+    );
+  };
+
+  // Get BC matches (Last 2 digits)
+  const getBCMatches = (result: string) => {
+    return userData.flatMap((item) =>
+      item.tableRows.filter((row) => row.letter === 'BC' && row.num === result.slice(1, 3))
+    );
+  };
+
+  // Get AC matches (First and Last digit)
+  const getACMatches = (result: string) => {
+    return userData.flatMap((item) =>
+      item.tableRows.filter((row) => row.letter === 'AC' && row.num === result[0] + result[2])
+    );
+  };
+
+  // Get full 3-digit matches (Uses full result)
+  const getThreeDigitMatches = (result: string) => {
+    return userData.flatMap((item) =>
       item.tableRows.filter((row) => row.num === result)
     );
-    return match;
   };
 
-  // Prize calculation based on ticket number
-  const getPrize = (ticket: string, _count: number, _letter: string) => {
+  // Get ABC matches (ONLY checks the first result digit)
+  const getABCMatches = (result: string) => {
+    return userData.flatMap((item) =>
+      item.tableRows.filter((row) =>
+        (row.letter === 'A' && row.num === result[0]) ||
+        (row.letter === 'B' && row.num === result[1]) ||
+        (row.letter === 'C' && row.num === result[2])
+      )
+    );
+  };
+
+  const getPrize = (ticket: string, count: number) => {
     switch (ticket) {
       case '1':
-        return 5000;
+        return 5000 * count;
       case '2':
-        return 500;
+        return 500 * count;
       case '3':
-        return 250;
+        return 250 * count;
       case '4':
-        return 100;
+        return 100 * count;
       case '5':
-        return 50;
+        return 50 * count;
       default:
-        return 20; // For all other ticket numbers
+        return 20 * count;
     }
   };
 
-  // Commission calculation
   const getCommission = (ticket: string, count: number) => {
-    if (ticket === '1') {
-      return 400 * count; // First prize commission is 400 * count
+    switch (ticket) {
+      case '1':
+        return 400 * count;
+      case '2':
+        return 50 * count;
+      case '3':
+        return 20 * count;
+      case '4':
+        return 20 * count;
+      case '5':
+        return 20 * count;
+      default:
+        return 10 * count;
     }
-    if (ticket === '2') {
-        return 50 * count; // First prize commission is 400 * count
-      }
-      if (ticket === '3') {
-        return 20 * count; // First prize commission is 400 * count
-      }
-      if (ticket === '4') {
-        return 20 * count; // First prize commission is 400 * count
-      }
-      if (ticket === '5') {
-        return 20 * count; // First prize commission is 400 * count
-      }
-    return 10 * 10; // No commission for other tickets
   };
 
-  // Show loading state
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>{error}</div>;
 
-  // Show error if data fetching fails
-  if (error) {
-    return <div>{error}</div>;
-  }
-
-  // Group results
-  const group2 = filteredResults
-    .filter((result) => !['1', '2', '3', '4', '5'].includes(result.ticket))
-    .slice(0, 30);
-
-  if (group2.length < 30) {
-    const remainingResults = filteredResults
-      .filter((result) => !group2.find((r) => r.ticket === result.ticket))
-      .slice(0, 30 - group2.length);
-    group2.push(...remainingResults);
-  }
-
-  const winningResults = filteredResults.filter((result) => getMatchedData(result.result).length > 0);
+  const winningResults = filteredResults.filter(
+    (result) =>
+      getThreeDigitMatches(result.result).length > 0 || getABCMatches(result.result).length > 0
+  );
 
   return (
     <div className="results-container">
       <div className="date-time-picker">
         <label>
           Select Date:
-          <input
-            type="date"
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.value)}
-          />
+          <input type="date" value={selectedDate} onChange={(e) => setSelectedDate(e.target.value)} />
         </label>
 
         <label>
           Select Time:
-          <select
-            value={selectedTime}
-            onChange={(e) => setSelectedTime(e.target.value)}
-          >
+          <select value={selectedTime} onChange={(e) => setSelectedTime(e.target.value)}>
             <option value="">Select Time</option>
             <option value="1pm">1 PM</option>
             <option value="3pm">3 PM</option>
@@ -168,46 +178,66 @@ const ResultsComponent: React.FC = () => {
         <button onClick={handleSubmit}>Submit</button>
       </div>
 
-      {/* Winning Results Table */}
       {winningResults.length > 0 && (
         <div className="winning-results">
-          <h3>Winning Results</h3>
           <table className="results-table">
             <thead>
               <tr>
                 <th>Ticket</th>
-                <th>Count</th>
-                <th>Prize</th> {/* New column for prize */}
-                <th>Commission</th> {/* New column for commission */}
+                <th>Num</th>
+                <th>Letter</th>
+                <th>Prize</th>
+                <th>Commission</th>
               </tr>
             </thead>
             <tbody>
-              {winningResults.map((result, index) => {
-                const matchedData = getMatchedData(result.result);
-                return (
-                  <tr key={index}>
-                    <td>{result.ticket}.{result.result}</td>
-                    {matchedData.length > 0 ? (
-                      <>
-                        <td>{matchedData[0].count}</td>
-                        <td>{parseInt(matchedData[0].count, 10) * getPrize(result.ticket, parseInt(matchedData[0].count, 10), matchedData[0].letter)}</td>
-                        <td>{getCommission(result.ticket, parseInt(matchedData[0].count, 10))}</td>
-                      </>
-                    ) : (
-                      <td colSpan={3}>No Winning</td>
-                    )}
+              {winningResults.flatMap((result, index) => {
+                const abcMatches = getABCMatches(result.result);
+                const abMatches = getABMatches(result.result);
+                const bcMatches = getBCMatches(result.result);
+                const acMatches = getACMatches(result.result);
+                const threeDigitMatches = getThreeDigitMatches(result.result);
+
+                let formattedRows: any[] = [];
+
+                threeDigitMatches.forEach((match) => {
+                  const count = parseInt(match.count, 10);
+                  formattedRows.push({
+                    ticket: result.ticket,
+                    num: result.result,
+                    letter: match.letter,
+                    prize: getPrize(result.ticket, count),
+                    commission: getCommission(result.ticket, count),
+                  });
+                });
+
+                if (result.ticket === '1') {
+                  [...abcMatches, ...abMatches, ...bcMatches, ...acMatches].forEach((match) => {
+                    const count = parseInt(match.count, 10);
+                    formattedRows.push({
+                      ticket: '1',
+                      num: `${match.letter} ${match.num}`,
+                      letter: match.letter,
+                      prize: count * (['AB', 'BC', 'AC'].includes(match.letter) ? 700 : 100),
+                      commission: count * (['AB', 'BC', 'AC'].includes(match.letter) ? 30 : 0),
+                    });
+                  });
+                }
+
+                return formattedRows.map((row, idx) => (
+                  <tr key={`${index}-${idx}`}>
+                    <td>{row.ticket}</td>
+                    <td>{row.num}</td>
+                    <td>{row.letter}</td>
+                    <td>{row.prize.toFixed(2)}</td>
+                    <td>{row.commission.toFixed(2)}</td>
                   </tr>
-                );
+                ));
               })}
             </tbody>
           </table>
         </div>
       )}
-
-      {/* Group 2: Remaining Results */}
-      <div className="remaining-results">
-        {/* Render Group 2 Results Here */}
-      </div>
     </div>
   );
 };
